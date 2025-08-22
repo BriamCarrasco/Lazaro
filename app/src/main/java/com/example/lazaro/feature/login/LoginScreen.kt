@@ -1,6 +1,7 @@
-package com.example.lazaro.screens
+package com.example.lazaro.feature.login
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,7 +36,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -45,12 +45,11 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.example.lazaro.R
 import androidx.compose.foundation.layout.Row
+import androidx.navigation.NavHostController
 
 
-class LoginScreen {
-    @Preview
-    @Composable
-    fun loginScreen() {
+@Composable
+    fun loginScreen(navRouter: NavHostController) {
         var userName by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
@@ -71,7 +70,8 @@ class LoginScreen {
 
             val progress by animateLottieCompositionAsState(
                 composition,
-                iterations = LottieConstants.IterateForever
+                iterations = LottieConstants.IterateForever,
+                speed = 0.5f
 
             )
 
@@ -118,9 +118,11 @@ class LoginScreen {
                     .background(Color.White, shape = RoundedCornerShape(32.dp)),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
+                    unfocusedTextColor = Color.DarkGray,
+                    focusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color(0xFFF5F5F5),
+                    focusedPlaceholderColor = Color.LightGray,
                     cursorColor = Color.Black
                 ),
                 shape = RoundedCornerShape(32.dp),
@@ -146,23 +148,27 @@ class LoginScreen {
                     .background(Color.White, shape = RoundedCornerShape(32.dp)),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
+                    unfocusedTextColor = Color.DarkGray,
+                    focusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color(0xFFF5F5F5),
+                    focusedPlaceholderColor = Color.LightGray,
                     cursorColor = Color.Black
                 ),
                 shape = RoundedCornerShape(32.dp),
                 singleLine = true,
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    val icon = if (passwordVisible) R.drawable.visible else R.drawable.ojo
+                    val icon = if (passwordVisible) R.drawable.eye_crossedxml else R.drawable.eyexml
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
                             painter = painterResource(id = icon),
                             contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
                             modifier = Modifier.size(16.dp),
+                            tint = Color(0xFFE0B53D)
                         )
-                    }}
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -185,7 +191,7 @@ class LoginScreen {
                 text = "¿Olvidaste tu contraseña?",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color(0xFF1E88E5),
+                color = Color(0xFFEAAD53),
                 textAlign = TextAlign.Center,
             )
 
@@ -205,14 +211,19 @@ class LoginScreen {
                     text = "Registrate",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color(0xFF1E88E5),
+                    color = Color(0xFFEAAD53),
                     textAlign = TextAlign.Center,
+                    modifier = Modifier.clickable{
+                        navRouter.navigate("registerScreen")
+                    }
                 )
             }
 
         }
     }
-}
+
+
+
 
 
 
