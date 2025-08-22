@@ -24,6 +24,9 @@ fun registerScreen(navRouter: NavHostController, viewModel: RegisterViewModel) {
                 } else {
                     Toast.makeText(context, "Completa todos los campos", Toast.LENGTH_SHORT).show()
                 }
+            },
+            onBack = {
+                navRouter.popBackStack()
             }
         )
         2 -> RegisterScreenStep2(
@@ -35,6 +38,9 @@ fun registerScreen(navRouter: NavHostController, viewModel: RegisterViewModel) {
                 } else {
                     Toast.makeText(context, "Completa todos los campos", Toast.LENGTH_SHORT).show()
                 }
+            },
+            onBack = {
+                navRouter.popBackStack()
             }
         )
     }
