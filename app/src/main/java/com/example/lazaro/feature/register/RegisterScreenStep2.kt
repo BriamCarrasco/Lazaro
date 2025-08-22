@@ -34,25 +34,43 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import topBarBack
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit) {
+fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, onBack: () -> Unit) {
     var passwordVisible by remember { mutableStateOf(false) }
 
+    Scaffold(
+        topBar = {
+            topBarBack(
+                onBackClick = onBack,
+                title = ""
+            )
+        }
+    ){innerPadding ->
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .verticalScroll(rememberScrollState())
             .imePadding()
+            .padding(innerPadding)
             .padding(horizontal = 32.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -87,6 +105,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit) {
             text = "LAZARO",
             fontSize = 32.sp,
             fontWeight = FontWeight.ExtraBold,
+            color = Color.Black
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -216,4 +235,4 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit) {
             Text("Registrate", fontSize = 16.sp, color = Color.White)
         }
     }
-}
+}}

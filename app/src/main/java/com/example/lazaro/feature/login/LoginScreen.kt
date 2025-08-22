@@ -89,6 +89,7 @@ import androidx.navigation.NavHostController
                 text = "LAZARO",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.ExtraBold,
+                color = Color.Black
             )
 
             Spacer(modifier = Modifier.height(12.dp))

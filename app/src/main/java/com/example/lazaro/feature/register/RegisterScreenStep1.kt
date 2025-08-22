@@ -17,12 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.lazaro.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,159 +28,174 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import kotlinx.coroutines.sync.Mutex
+import androidx.compose.material3.Scaffold
+import topBarBack
+
 
 @Composable
-fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit){
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .imePadding()
-            .padding(horizontal = 32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
-/*
-        val composition by rememberLottieComposition(
-            LottieCompositionSpec.RawRes(R.raw.pawsanimation)
-        )
+fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack: () -> Unit){
 
-        val progress by animateLottieCompositionAsState(
-            composition,
-            iterations = LottieConstants.IterateForever,
-            speed = 0.5f
-        )
-
-        LottieAnimation(
-            composition = composition,
-            progress = {progress},
+    Scaffold(
+        topBar = {
+            topBarBack(
+                onBackClick = onBack,
+                title = ""
+            )
+        }
+    ){innerPadding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp)
+                .fillMaxSize()
+                .background(Color.White)
+                .verticalScroll(rememberScrollState())
+                .imePadding()
+                .padding(horizontal = 32.dp)
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         )
+        {
+    /*
+            val composition by rememberLottieComposition(
+                LottieCompositionSpec.RawRes(R.raw.pawsanimation)
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
-*/
-        Text (
-            text = "LAZARO",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.ExtraBold,
-        )
+            val progress by animateLottieCompositionAsState(
+                composition,
+                iterations = LottieConstants.IterateForever,
+                speed = 0.5f
+            )
 
-        Spacer(modifier = Modifier.height(12.dp))
+            LottieAnimation(
+                composition = composition,
+                progress = {progress},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp)
+            )
 
-        Text (
-            text = "Registro",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.DarkGray
-        )
+            Spacer(modifier = Modifier.height(16.dp))
+    */
+            Text (
+                text = "LAZARO",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.Black
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-        Text ("Datos personales",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Normal,
-            color = Color.DarkGray
-        )
+            Text (
+                text = "Registro",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.DarkGray
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = viewModel.nombre,
-            onValueChange = { viewModel.nombre = it },
-            placeholder = {
-                Text("Nombre",
-                    color = Color.Gray,
-                    style = TextStyle(textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
+            Text ("Datos personales",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.DarkGray
+            )
 
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-                .height(54.dp)
-                .background(Color.White, shape = RoundedCornerShape(32.dp)),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color.DarkGray,
-                focusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-                focusedPlaceholderColor = Color.LightGray,
-                cursorColor = Color.Black
-            ),
-            shape = RoundedCornerShape(32.dp),
-            singleLine = true,
-        )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = viewModel.apellidoP,
-            onValueChange = { viewModel.apellidoP = it },
-            placeholder = {
-                Text("Apellido paterno",
-                    color = Color.Gray,
-                    style = TextStyle(textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
+            OutlinedTextField(
+                value = viewModel.nombre,
+                onValueChange = { viewModel.nombre = it },
+                placeholder = {
+                    Text("Nombre",
+                        color = Color.Gray,
+                        style = TextStyle(textAlign = TextAlign.Center),
+                        modifier = Modifier.fillMaxWidth()
 
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-                .height(54.dp)
-                .background(Color.White, shape = RoundedCornerShape(32.dp)),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color.DarkGray,
-                focusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-                focusedPlaceholderColor = Color.LightGray,
-                cursorColor = Color.Black
-            ),
-            shape = RoundedCornerShape(32.dp),
-            singleLine = true,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .height(54.dp)
+                    .background(Color.White, shape = RoundedCornerShape(32.dp)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFFFD9C00),
+                    unfocusedTextColor = Color.DarkGray,
+                    focusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color(0xFFF5F5F5),
+                    focusedPlaceholderColor = Color.LightGray,
+                    cursorColor = Color.Black
+                ),
+                shape = RoundedCornerShape(32.dp),
+                singleLine = true,
+            )
 
-        OutlinedTextField(
-            value = viewModel.ApellidoM,
-            onValueChange = { viewModel.ApellidoM = it },
-            placeholder = {
-                Text("Apellido materno",
-                    color = Color.Gray,
-                    style = TextStyle(textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = viewModel.apellidoP,
+                onValueChange = { viewModel.apellidoP = it },
+                placeholder = {
+                    Text("Apellido paterno",
+                        color = Color.Gray,
+                        style = TextStyle(textAlign = TextAlign.Center),
+                        modifier = Modifier.fillMaxWidth()
 
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-                .height(54.dp)
-                .background(Color.White, shape = RoundedCornerShape(32.dp)),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color.DarkGray,
-                focusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-                focusedPlaceholderColor = Color.LightGray,
-                cursorColor = Color.Black
-            ),
-            shape = RoundedCornerShape(32.dp),
-            singleLine = true,
-        )
-        Spacer(modifier = Modifier.height(24.dp))
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .height(54.dp)
+                    .background(Color.White, shape = RoundedCornerShape(32.dp)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFFFD9C00),
+                    unfocusedTextColor = Color.DarkGray,
+                    focusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color(0xFFF5F5F5),
+                    focusedPlaceholderColor = Color.LightGray,
+                    cursorColor = Color.Black
+                ),
+                shape = RoundedCornerShape(32.dp),
+                singleLine = true,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = onNext,
-            modifier = Modifier
-                .width(250.dp)
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7700)),
-            shape = RoundedCornerShape(32.dp)
-        ) {
-            Text("Siguiente", fontSize = 16.sp, color = Color.White)
+            OutlinedTextField(
+                value = viewModel.ApellidoM,
+                onValueChange = { viewModel.ApellidoM = it },
+                placeholder = {
+                    Text("Apellido materno",
+                        color = Color.Gray,
+                        style = TextStyle(textAlign = TextAlign.Center),
+                        modifier = Modifier.fillMaxWidth()
+
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .height(54.dp)
+                    .background(Color.White, shape = RoundedCornerShape(32.dp)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFFFD9C00),
+                    unfocusedTextColor = Color.DarkGray,
+                    focusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color(0xFFF5F5F5),
+                    focusedPlaceholderColor = Color.LightGray,
+                    cursorColor = Color.Black
+                ),
+                shape = RoundedCornerShape(32.dp),
+                singleLine = true,
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = onNext,
+                modifier = Modifier
+                    .width(250.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7700)),
+                shape = RoundedCornerShape(32.dp)
+            ) {
+                Text("Siguiente", fontSize = 16.sp, color = Color.White)
+            }
         }
     }
 }

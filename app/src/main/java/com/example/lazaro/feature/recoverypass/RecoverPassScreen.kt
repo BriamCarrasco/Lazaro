@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -35,80 +36,94 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import topBarBack
 
 @Composable
-fun recoverPassScreen(navRouter: NavController) {
+fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
     var email by remember { mutableStateOf("") }
     val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .imePadding()
-            .padding(horizontal = 32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
 
-        Text (
-            text = "LAZARO",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Text (
-            text = "Recuperar contraseña",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Normal,
-            color = Color.DarkGray
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            placeholder = {
-                Text("Correo electrónico",
-                    color = Color.Gray,
-                    style = TextStyle(textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
-
-                )
-            },
+    Scaffold(
+        topBar = {
+            topBarBack(
+                onBackClick = onBack,
+                title = ""
+            )
+        }
+    ){ innerPadding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(54.dp)
-                .background(Color.White, shape = RoundedCornerShape(32.dp)),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color.DarkGray,
-                focusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-                focusedPlaceholderColor = Color.LightGray,
-                cursorColor = Color.Black
-            ),
-            shape = RoundedCornerShape(32.dp),
-            singleLine = true,
+                .fillMaxSize()
+                .background(Color.White)
+                .verticalScroll(rememberScrollState())
+                .imePadding()
+                .padding(horizontal = 32.dp)
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
 
+            Text (
+                text = "LAZARO",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.Black
             )
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-        Button(onClick = {
-            Toast.makeText(context, "Correo enviado", Toast.LENGTH_SHORT).show()
+            Text (
+                text = "Recuperar contraseña",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.DarkGray
+            )
 
-        },
-            modifier = Modifier
-                .width(250.dp)
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7700)),
-            shape = RoundedCornerShape(32.dp)) {
+            Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Enviar enlace", fontSize = 16.sp, color = Color.White)
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                placeholder = {
+                    Text("Correo electrónico",
+                        color = Color.Gray,
+                        style = TextStyle(textAlign = TextAlign.Center),
+                        modifier = Modifier.fillMaxWidth()
+
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(54.dp)
+                    .background(Color.White, shape = RoundedCornerShape(32.dp)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFFFD9C00),
+                    unfocusedTextColor = Color.DarkGray,
+                    focusedTextColor = Color(0xFFFD9C00),
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color(0xFFF5F5F5),
+                    focusedPlaceholderColor = Color.LightGray,
+                    cursorColor = Color.Black
+                ),
+                shape = RoundedCornerShape(32.dp),
+                singleLine = true,
+
+                )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(onClick = {
+                Toast.makeText(context, "Correo enviado", Toast.LENGTH_SHORT).show()
+
+            },
+                modifier = Modifier
+                    .width(250.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7700)),
+                shape = RoundedCornerShape(32.dp)) {
+
+                Text("Enviar enlace", fontSize = 16.sp, color = Color.White)
+            }
         }
     }
 }
