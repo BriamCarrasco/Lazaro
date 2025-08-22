@@ -88,7 +88,7 @@ import androidx.navigation.NavHostController
             Text (
                 text = "LAZARO",
                 fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.ExtraBold,
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -174,6 +174,7 @@ import androidx.navigation.NavHostController
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(onClick = {
+                navRouter.navigate("homeScreen")
 
             },
                 modifier = Modifier
@@ -193,6 +194,9 @@ import androidx.navigation.NavHostController
                 fontWeight = FontWeight.Medium,
                 color = Color(0xFFEAAD53),
                 textAlign = TextAlign.Center,
+                modifier = Modifier.clickable {
+                    navRouter.navigate("recoverPassScreen")
+                }
             )
 
             Spacer(modifier = Modifier.height(42.dp))

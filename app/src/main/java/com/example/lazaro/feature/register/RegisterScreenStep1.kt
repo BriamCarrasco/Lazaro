@@ -34,6 +34,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import kotlinx.coroutines.sync.Mutex
 
 @Composable
 fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit){
@@ -47,7 +48,7 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit){
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-
+/*
         val composition by rememberLottieComposition(
             LottieCompositionSpec.RawRes(R.raw.pawsanimation)
         )
@@ -67,10 +68,28 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit){
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+*/
+        Text (
+            text = "LAZARO",
+            fontSize = 32.sp,
+            fontWeight = FontWeight.ExtraBold,
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text (
+            text = "Registro",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = Color.DarkGray
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text ("Datos personales",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
+            color = Color.DarkGray
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -157,7 +176,7 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit){
             shape = RoundedCornerShape(32.dp),
             singleLine = true,
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = onNext,

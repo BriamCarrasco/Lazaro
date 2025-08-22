@@ -59,6 +59,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit) {
     )
     {
 
+/*
         val composition by rememberLottieComposition(
             LottieCompositionSpec.RawRes(R.raw.pawsanimation)
         )
@@ -78,10 +79,31 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit) {
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+*/
 
-        Text ("Datos personales",
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text (
+            text = "LAZARO",
+            fontSize = 32.sp,
+            fontWeight = FontWeight.ExtraBold,
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text (
+            text = "Registro",
             fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.ExtraBold,
+            color = Color.DarkGray
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text ("Datos de usuario",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
+            color = Color.DarkGray
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -118,7 +140,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit) {
             value = viewModel.email,
             onValueChange = { viewModel.email = it },
             placeholder = {
-                Text("Apellido paterno",
+                Text("Email",
                     color = Color.Gray,
                     style = TextStyle(textAlign = TextAlign.Center),
                     modifier = Modifier.fillMaxWidth()
@@ -140,6 +162,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit) {
             shape = RoundedCornerShape(32.dp),
             singleLine = true,
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
@@ -179,7 +202,9 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit) {
                     )
                 }}
         )
-        Spacer(modifier = Modifier.height(16.dp))
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Button(
             onClick = onRegister,
             modifier = Modifier
