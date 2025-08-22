@@ -39,7 +39,9 @@ class MainActivity : ComponentActivity() {
                         homeScreen(navController)
                     }
                     composable (NavRouter.RecoverPassScreen.route) {
-                        recoverPassScreen(navController)
+                        recoverPassScreen(navController, onBack = {
+                            navController.popBackStack()
+                        })
                     }
                 }
             }
