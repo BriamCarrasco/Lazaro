@@ -1,5 +1,9 @@
 package com.example.lazaro.nav
 
-class NavRouter {
+sealed class NavRouter (val route: String) {
+    object LoginScreen : NavRouter("loginScreen")
+    object RegisterScreen: NavRouter("registerScreen")
+    object Home: NavRouter("homeScreen")
+    object RecoverPassword: NavRouter("recoverPassScreen")
 
 }
