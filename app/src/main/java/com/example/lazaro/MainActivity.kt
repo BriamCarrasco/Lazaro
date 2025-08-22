@@ -15,6 +15,7 @@ import com.example.lazaro.feature.login.loginScreen
 import com.example.lazaro.feature.recoverypass.recoverPassScreen
 import com.example.lazaro.feature.register.RegisterViewModel
 import com.example.lazaro.feature.register.registerScreen
+import com.example.lazaro.feature.login.LoginViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,8 @@ class MainActivity : ComponentActivity() {
                     startDestination = NavRouter.LoginScreen.route
                 ){
                     composable(NavRouter.LoginScreen.route){
-                        loginScreen(navController)
+                        val loginViewModel: LoginViewModel = viewModel()
+                        loginScreen(navController, loginViewModel)
 
                     }
                     composable (NavRouter.RegisterScreen.route){
