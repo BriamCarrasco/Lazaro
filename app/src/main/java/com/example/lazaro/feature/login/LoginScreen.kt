@@ -1,5 +1,6 @@
 package com.example.lazaro.feature.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -49,7 +50,7 @@ import androidx.navigation.NavHostController
 
 
 @Composable
-    fun loginScreen(navRouter: NavHostController) {
+    fun loginScreen(navRouter: NavHostController, viewModel: LoginViewModel) {
         var userName by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
@@ -104,8 +105,8 @@ import androidx.navigation.NavHostController
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
-                value = userName,
-                onValueChange = { userName = it },
+                value = viewModel.userName,
+                onValueChange = { viewModel.userName = it },
                 placeholder = {
                     Text("Nombre de usuario",
                         color = Color.Gray,
@@ -134,8 +135,8 @@ import androidx.navigation.NavHostController
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
+                value = viewModel.password,
+                onValueChange = { viewModel.password = it },
                 placeholder = {
                     Text("Contraseña",
                         color = Color.Gray,
@@ -175,7 +176,25 @@ import androidx.navigation.NavHostController
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(onClick = {
-                navRouter.navigate("homeScreen")
+                if(viewModel.userName == "" || viewModel.password == ""){
+                    Toast.makeText(navRouter.context, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+                }else {
+                    viewModel.login()
+                    if (viewModel.loginCorrecto == true) {
+                        navRouter.navigate("homeScreen")
+                        Toast.makeText(
+                            navRouter.context,
+                            "Inicio de sesión exitoso",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            navRouter.context,
+                            "Usuario o contraseña incorrecta",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
 
             },
                 modifier = Modifier
