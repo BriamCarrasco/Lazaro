@@ -24,43 +24,196 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.lazaro.R
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.util.Log
+import androidx.camera.core.Preview
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.camera.view.PreviewView
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.core.CameraSelector
+import androidx.compose.animation.*
+import androidx.compose.foundation.layout.aspectRatio
+import android.view.Surface
+import androidx.camera.core.AspectRatio
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
+import com.example.lazaro.topbarhome.TopBarHome
+import com.example.lazaro.feature.reusable.drawerHome
+import kotlinx.coroutines.launch
+import androidx.compose.material3.MaterialTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lazaro.feature.session.SessionViewModel
 
 
 @Composable
-fun homeScreen(navRouter: NavHostController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .imePadding()
-            .padding(horizontal = 32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggleTheme: () -> Unit) {
 
-    ){
-        val composition by rememberLottieComposition(
-            LottieCompositionSpec.RawRes(R.raw.home)
+    val sessionViewModel: SessionViewModel = viewModel()
+    val context = LocalContext.current
+    var showCamera by remember { mutableStateOf(false) }
+    var hasPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context, Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
         )
-
-        val progress by animateLottieCompositionAsState(
-            composition,
-            iterations = LottieConstants.IterateForever,
-        )
-
-        LottieAnimation(
-            composition = composition,
-            progress = {progress},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp)
-        )
-
-        Text (
-            text = "Ups! Nada por aquí...",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-        )
-
     }
 
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        hasPermission = granted
+    }
+
+
+    LaunchedEffect(Unit) {
+        if (!hasPermission) {
+            permissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+
+        val user = sessionViewModel.loadSession(context)
+        if(user != null) {
+            sessionViewModel.login(user)
+        }
+    }
+
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+        }
+    }
+
+    if(showCamera){
+        Box(modifier = Modifier.fillMaxSize()) {
+            CameraXPreview(context)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Black.copy(alpha = 0f))
+                    .padding(8.dp)
+                .statusBarsPadding(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { showCamera = false }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.cerrar),
+                        contentDescription = "Cerrar cámara",
+                        modifier = Modifier.size(24.dp),
+                        colorFilter = ColorFilter.tint(Color(0xFFFD9C00))
+                   )
+                }
+            }
+        }
+    }else {
+
+        drawerHome(
+            topBar = { drawerState, scope ->
+                TopBarHome(
+                    title = "Título",
+                    onMenuClick = { scope.launch { drawerState.open() } }
+                )
+            },
+            content = { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .imePadding()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(horizontal = 32.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Escanear billete",
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                    )
+                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.scan))
+                    val progress by animateLottieCompositionAsState(
+                        composition,
+                        iterations = LottieConstants.IterateForever
+                    )
+                    AnimatedVisibility(visible = !showCamera) {
+                        Box(
+                            modifier = Modifier
+                                .height(300.dp)
+                                .width(300.dp)
+                                .clip(CircleShape)
+                                .clickable { showCamera = true }
+                        ) {
+                            LottieAnimation(
+                                composition = composition,
+                                progress = { progress },
+                            )
+                        }
+                    }
+                }
+            },
+            darkThemeEnabled = darkThemeEnabled,
+            onToggleTheme = onToggleTheme,
+            sessionViewModel = sessionViewModel,
+            navController = navRouter
+        )
+    }
+}
+
+@Composable
+fun CameraXPreview(context: Context) {
+    AndroidView(
+        factory = { ctx ->
+            val previewView = PreviewView(ctx).apply {
+                scaleType = PreviewView.ScaleType.FILL_CENTER
+            }
+            val cameraProviderFuture = ProcessCameraProvider.getInstance(ctx)
+            cameraProviderFuture.addListener({
+                val cameraProvider = cameraProviderFuture.get()
+                val preview = Preview.Builder()
+                    //.setTargetAspectRatio(AspectRatio.RATIO_4_3)
+                    .build().also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
+                }
+                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+                try {
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(
+                        ctx as androidx.lifecycle.LifecycleOwner,
+                        cameraSelector,
+                        preview
+                    )
+                } catch (exc: Exception) {
+                    Log.e("CameraX", "Error: ${exc.message}")
+                }
+            }, ContextCompat.getMainExecutor(ctx))
+            previewView
+        },
+        modifier = Modifier
+            .fillMaxSize()
+    )
 }
