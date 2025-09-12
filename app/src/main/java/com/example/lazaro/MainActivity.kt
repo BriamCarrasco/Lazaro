@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.lazaro.nav.NavRouter
@@ -16,21 +17,33 @@ import com.example.lazaro.feature.recoverypass.recoverPassScreen
 import com.example.lazaro.feature.register.RegisterViewModel
 import com.example.lazaro.feature.register.registerScreen
 import com.example.lazaro.feature.login.LoginViewModel
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import com.example.lazaro.feature.session.SessionViewModel
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LazaroTheme {
+            var darkThemeEnabled by remember { mutableStateOf(false) }
+            LazaroTheme (darkThemeEnabled){
                 val navController = rememberNavController()
+                val sessionViewModel: SessionViewModel = viewModel()
+                val startDestination = if (sessionViewModel.currentUser.value != null) {
+                    NavRouter.HomeScreen.route
+                } else {
+                    NavRouter.LoginScreen.route
+                }
                 NavHost(
                     navController = navController,
-                    startDestination = NavRouter.LoginScreen.route
+                    startDestination = startDestination
                 ){
                     composable(NavRouter.LoginScreen.route){
                         val loginViewModel: LoginViewModel = viewModel()
-                        loginScreen(navController, loginViewModel)
+                        loginScreen(navController, loginViewModel, sessionViewModel)
 
                     }
                     composable (NavRouter.RegisterScreen.route){
@@ -38,7 +51,9 @@ class MainActivity : ComponentActivity() {
                         registerScreen(navController, registerViewModel)
                     }
                     composable (NavRouter.HomeScreen.route){
-                        homeScreen(navController)
+                        homeScreen(navController,
+                            darkThemeEnabled = darkThemeEnabled,
+                            onToggleTheme = { darkThemeEnabled = !darkThemeEnabled })
                     }
                     composable (NavRouter.RecoverPassScreen.route) {
                         recoverPassScreen(navController, onBack = {
@@ -52,9 +67,3 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
-// TODO: GENERAR PANTALLA LOGIN --> HECHO
-// TODO: GENERAR PANTALLA REGISTRO --> HECHO
-// TODO: GENERAR PANTALLA HOME --> EN PROCESO
-// TODO: GENERAR ARRAY PARA USUARIOS (GUARDAR AL MENOS 5 USUARIOS). --> EN PROCESO
-// TODO: GENERAR PANTALLA PARA RECUPERAR CONTRASEÑA --> EN PROCESO
