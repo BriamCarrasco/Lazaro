@@ -11,7 +11,7 @@ fun topBarBack(
     onBackClick: () -> Unit,
     title: String,
     modifier: Modifier = Modifier,
-    containerColor: Color = Color.White
+    containerColor: Color = MaterialTheme.colorScheme.background
 ) {
     TopAppBar(
         title = { Text(text = title) },
@@ -20,13 +20,13 @@ fun topBarBack(
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Volver",
-                    tint = Color(0xFFFD9C00)
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor,
-            titleContentColor = Color.DarkGray
+            titleContentColor = MaterialTheme.colorScheme.onBackground
         ),
         modifier = modifier
     )
