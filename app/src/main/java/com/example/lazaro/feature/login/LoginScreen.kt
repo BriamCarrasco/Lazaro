@@ -47,17 +47,30 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.example.lazaro.R
 import androidx.compose.foundation.layout.Row
 import androidx.navigation.NavHostController
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.platform.LocalContext
+import com.example.lazaro.feature.session.SessionViewModel
+import com.example.lazaro.data.UsersRepository
 
 
 @Composable
-    fun loginScreen(navRouter: NavHostController, viewModel: LoginViewModel) {
+    fun loginScreen(navRouter: NavHostController, viewModel: LoginViewModel, sessionViewModel: SessionViewModel) {
         var userName by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    val usuarioEnSesion = sessionViewModel.loadSession(context)
+    if (usuarioEnSesion != null) {
+        sessionViewModel.login(usuarioEnSesion)
+        navRouter.navigate("homeScreen")
+        return
+    }
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState())
                 .imePadding()
                 .padding(horizontal = 32.dp),
@@ -90,7 +103,7 @@ import androidx.navigation.NavHostController
                 text = "LAZARO",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -99,7 +112,7 @@ import androidx.navigation.NavHostController
                 text = "Iniciar sesión para continuar",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
-                color = Color.DarkGray
+                color = MaterialTheme.colorScheme.inversePrimary
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -109,7 +122,7 @@ import androidx.navigation.NavHostController
                 onValueChange = { viewModel.userName = it },
                 placeholder = {
                     Text("Nombre de usuario",
-                        color = Color.Gray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = TextStyle(textAlign = TextAlign.Center),
                         modifier = Modifier.fillMaxWidth()
 
@@ -119,13 +132,15 @@ import androidx.navigation.NavHostController
                     .height(54.dp)
                     .background(Color.White, shape = RoundedCornerShape(32.dp)),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color.DarkGray,
-                    focusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color(0xFFF5F5F5),
-                    focusedPlaceholderColor = Color.LightGray,
-                    cursorColor = Color.Black
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 shape = RoundedCornerShape(32.dp),
                 singleLine = true,
@@ -139,7 +154,7 @@ import androidx.navigation.NavHostController
                 onValueChange = { viewModel.password = it },
                 placeholder = {
                     Text("Contraseña",
-                        color = Color.Gray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = TextStyle (textAlign = TextAlign.Center),
                         modifier = Modifier.fillMaxWidth()
 
@@ -149,13 +164,15 @@ import androidx.navigation.NavHostController
                     .height(54.dp)
                     .background(Color.White, shape = RoundedCornerShape(32.dp)),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color.DarkGray,
-                    focusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color(0xFFF5F5F5),
-                    focusedPlaceholderColor = Color.LightGray,
-                    cursorColor = Color.Black
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 shape = RoundedCornerShape(32.dp),
                 singleLine = true,
@@ -167,7 +184,7 @@ import androidx.navigation.NavHostController
                             painter = painterResource(id = icon),
                             contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
                             modifier = Modifier.size(16.dp),
-                            tint = Color(0xFFE0B53D)
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )
                     }
                 }
@@ -176,11 +193,18 @@ import androidx.navigation.NavHostController
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(onClick = {
-                if(viewModel.userName == "" || viewModel.password == ""){
+                if (viewModel.userName == "" || viewModel.password == "") {
                     Toast.makeText(navRouter.context, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
-                }else {
+                } else {
                     viewModel.login()
-                    if (viewModel.loginCorrecto == true) {
+                    if (viewModel.loginCorrecto) {
+                        val user = UsersRepository.getUsers().find {
+                            it.nombreUsuario == viewModel.userName && it.password == viewModel.password
+                        }
+                        if (user != null) {
+                            sessionViewModel.login(user)
+                            sessionViewModel.saveSession(context, user)
+                        }
                         navRouter.navigate("homeScreen")
                         Toast.makeText(
                             navRouter.context,
@@ -195,15 +219,14 @@ import androidx.navigation.NavHostController
                         ).show()
                     }
                 }
-
             },
                 modifier = Modifier
                     .width(250.dp)
                     .height(48.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7700)),
-                shape = RoundedCornerShape(32.dp)) {
-
-                Text("Iniciar sesión", fontSize = 16.sp, color = Color.White)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                shape = RoundedCornerShape(32.dp)
+            ) {
+                Text("Iniciar sesión", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -212,7 +235,7 @@ import androidx.navigation.NavHostController
                 text = "¿Olvidaste tu contraseña?",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color(0xFFEAAD53),
+                color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
                     navRouter.navigate("recoverPassScreen")
@@ -227,7 +250,7 @@ import androidx.navigation.NavHostController
                     text = "¿No tienes una cuenta?",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color.DarkGray,
+                    color = MaterialTheme.colorScheme.inversePrimary,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -235,7 +258,7 @@ import androidx.navigation.NavHostController
                     text = "Registrate",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color(0xFFEAAD53),
+                    color = MaterialTheme.colorScheme.secondary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable{
                         navRouter.navigate("registerScreen")
