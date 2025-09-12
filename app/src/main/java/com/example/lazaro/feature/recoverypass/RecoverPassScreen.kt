@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -54,7 +55,7 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState())
                 .imePadding()
                 .padding(horizontal = 32.dp)
@@ -67,7 +68,7 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
                 text = "LAZARO",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -76,7 +77,7 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
                 text = "Recuperar contraseña",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
-                color = Color.DarkGray
+                color = MaterialTheme.colorScheme.inversePrimary
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -97,13 +98,15 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
                     .height(54.dp)
                     .background(Color.White, shape = RoundedCornerShape(32.dp)),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFD9C00),
-                    unfocusedTextColor = Color.DarkGray,
-                    focusedTextColor = Color(0xFFFD9C00),
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color(0xFFF5F5F5),
-                    focusedPlaceholderColor = Color.LightGray,
-                    cursorColor = Color.Black
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 shape = RoundedCornerShape(32.dp),
                 singleLine = true,
@@ -119,10 +122,10 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
                 modifier = Modifier
                     .width(250.dp)
                     .height(48.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7700)),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(32.dp)) {
 
-                Text("Enviar enlace", fontSize = 16.sp, color = Color.White)
+                Text("Enviar enlace", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
             }
         }
     }

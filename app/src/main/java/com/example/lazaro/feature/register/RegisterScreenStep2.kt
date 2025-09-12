@@ -40,6 +40,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -66,7 +67,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
             .imePadding()
             .padding(innerPadding)
@@ -76,35 +77,13 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
     )
     {
 
-/*
-        val composition by rememberLottieComposition(
-            LottieCompositionSpec.RawRes(R.raw.pawsanimation)
-        )
-
-        val progress by animateLottieCompositionAsState(
-            composition,
-            iterations = LottieConstants.IterateForever,
-            speed = 0.5f
-        )
-
-        LottieAnimation(
-            composition = composition,
-            progress = {progress},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-*/
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Text (
             text = "LAZARO",
             fontSize = 32.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -113,7 +92,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             text = "Registro",
             fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.DarkGray
+            color = MaterialTheme.colorScheme.inversePrimary
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -121,7 +100,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
         Text ("Datos de usuario",
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal,
-            color = Color.DarkGray
+            color = MaterialTheme.colorScheme.inversePrimary
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -131,7 +110,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             onValueChange = { viewModel.nombreUsuario = it },
             placeholder = {
                 Text("Nombre de usuario",
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = TextStyle(textAlign = TextAlign.Center),
                     modifier = Modifier.fillMaxWidth()
 
@@ -141,13 +120,15 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
                 .height(54.dp)
                 .background(Color.White, shape = RoundedCornerShape(32.dp)),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color.DarkGray,
-                focusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-                focusedPlaceholderColor = Color.LightGray,
-                cursorColor = Color.Black
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedTextColor = MaterialTheme.colorScheme.primary,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                cursorColor = MaterialTheme.colorScheme.primary,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
             ),
             shape = RoundedCornerShape(32.dp),
             singleLine = true,
@@ -159,7 +140,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             onValueChange = { viewModel.email = it },
             placeholder = {
                 Text("Email",
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = TextStyle(textAlign = TextAlign.Center),
                     modifier = Modifier.fillMaxWidth()
 
@@ -169,13 +150,15 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
                 .height(54.dp)
                 .background(Color.White, shape = RoundedCornerShape(32.dp)),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color.DarkGray,
-                focusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-                focusedPlaceholderColor = Color.LightGray,
-                cursorColor = Color.Black
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedTextColor = MaterialTheme.colorScheme.primary,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                cursorColor = MaterialTheme.colorScheme.primary,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
             ),
             shape = RoundedCornerShape(32.dp),
             singleLine = true,
@@ -188,7 +171,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             onValueChange = { viewModel.password = it },
             placeholder = {
                 Text("Contraseña",
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = TextStyle (textAlign = TextAlign.Center),
                     modifier = Modifier.fillMaxWidth()
 
@@ -198,13 +181,15 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
                 .height(54.dp)
                 .background(Color.White, shape = RoundedCornerShape(32.dp)),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFFFD9C00),
-                unfocusedTextColor = Color.DarkGray,
-                focusedTextColor = Color(0xFFFD9C00),
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-                focusedPlaceholderColor = Color.LightGray,
-                cursorColor = Color.Black
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedTextColor = MaterialTheme.colorScheme.primary,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                cursorColor = MaterialTheme.colorScheme.primary,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
             ),
             shape = RoundedCornerShape(32.dp),
             singleLine = true,
@@ -228,10 +213,10 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             modifier = Modifier
                 .width(250.dp)
                 .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7700)),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(32.dp)
         ) {
-            Text("Registrate", fontSize = 16.sp, color = Color.White)
+            Text("Registrate", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
         }
     }
 }}
