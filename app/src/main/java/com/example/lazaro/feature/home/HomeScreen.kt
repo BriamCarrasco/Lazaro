@@ -134,7 +134,7 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
         drawerHome(
             topBar = { drawerState, scope ->
                 TopBarHome(
-                    title = "Título",
+                    title = "Lazaro",
                     onMenuClick = { scope.launch { drawerState.open() } }
                 )
             },
