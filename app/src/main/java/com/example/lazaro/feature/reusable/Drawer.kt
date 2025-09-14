@@ -70,7 +70,7 @@ fun drawerHome(
                 Button(
                     onClick = {
                         sessionViewModel.logout()
-                        sessionViewModel.saveSession(context, null) // Borra la sesión
+                        sessionViewModel.saveSession(context, null)
                         navController.navigate("loginScreen") {
                             popUpTo("homeScreen") { inclusive = true }
                         }
