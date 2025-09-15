@@ -30,7 +30,7 @@ fun TopBarHome(
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor,
-            titleContentColor = Color.DarkGray
+            titleContentColor = MaterialTheme.colorScheme.onBackground
         ),
         modifier = modifier
     )
