@@ -1,9 +1,12 @@
 package com.example.lazaro.data
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "users")
 data class Users(
-    val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val nombreUsuario: String,
     val nombre: String,
     val apellidoP: String,
@@ -12,6 +15,9 @@ data class Users(
     val password: String
 )
 
+
+
+/*
 object UsersRepository {
     private val usersList = mutableListOf<Users>()
 
@@ -37,4 +43,6 @@ object UsersRepository {
     }
 
 }
+*/
+
 
