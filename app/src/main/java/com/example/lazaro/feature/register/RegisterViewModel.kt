@@ -4,10 +4,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lazaro.data.Users
-import com.example.lazaro.data.UsersRepository
+import com.example.lazaro.data.UsersRoomRepository
+import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel() {
     var id by mutableStateOf(0)
     var nombreUsuario by mutableStateOf("")
     var nombre by mutableStateOf("")
@@ -26,7 +31,9 @@ class RegisterViewModel : ViewModel() {
             email = email,
             password = password
         )
-        UsersRepository.addUsers(newUser)
+        viewModelScope.launch {
+            repository.insertUser(newUser)
+        }
     }
 
     fun isStep1Valid(): Boolean {

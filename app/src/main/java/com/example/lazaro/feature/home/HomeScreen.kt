@@ -24,7 +24,6 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.lazaro.R
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
 import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,27 +35,20 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.camera.core.Preview
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.camera.view.PreviewView
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.CameraSelector
 import androidx.compose.animation.*
-import androidx.compose.foundation.layout.aspectRatio
-import android.view.Surface
-import androidx.camera.core.AspectRatio
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.width
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -66,6 +58,8 @@ import kotlinx.coroutines.launch
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lazaro.feature.session.SessionViewModel
+import com.example.lazaro.data.UsersRoomRepository
+import com.example.lazaro.data.AppDatabase
 
 
 @Composable
@@ -94,9 +88,14 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
             permissionLauncher.launch(Manifest.permission.CAMERA)
         }
 
-        val user = sessionViewModel.loadSession(context)
-        if(user != null) {
-            sessionViewModel.login(user)
+        val username = sessionViewModel.loadSession(context)
+        if (username != null) {
+            val db = AppDatabase.getInstance(context)
+            val repository = UsersRoomRepository(db.usersDao())
+            val userEntity = repository.getUserByUsername(username)
+            if (userEntity != null) {
+                sessionViewModel.login(userEntity)
+            }
         }
     }
 
@@ -153,7 +152,7 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
                         text = "Escanear billete",
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.scan))
                     val progress by animateLottieCompositionAsState(

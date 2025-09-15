@@ -48,9 +48,11 @@ import com.example.lazaro.R
 import androidx.compose.foundation.layout.Row
 import androidx.navigation.NavHostController
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import com.example.lazaro.feature.session.SessionViewModel
-import com.example.lazaro.data.UsersRepository
+import com.example.lazaro.data.AppDatabase
+import com.example.lazaro.data.UsersRoomRepository
 
 
 @Composable
@@ -58,13 +60,19 @@ import com.example.lazaro.data.UsersRepository
         var userName by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+        val context = LocalContext.current
+        val usuarioEnSesion = sessionViewModel.loadSession(context)
 
-    val usuarioEnSesion = sessionViewModel.loadSession(context)
-    if (usuarioEnSesion != null) {
-        sessionViewModel.login(usuarioEnSesion)
-        navRouter.navigate("homeScreen")
-        return
+    LaunchedEffect(usuarioEnSesion) {
+        if (usuarioEnSesion != null) {
+            val db = AppDatabase.getInstance(context)
+            val repository = UsersRoomRepository(db.usersDao())
+            val userEntity = repository.getUserByUsername(usuarioEnSesion)
+            if (userEntity != null) {
+                sessionViewModel.login(userEntity)
+                navRouter.navigate("homeScreen")
+            }
+        }
     }
 
         Column(
@@ -194,30 +202,13 @@ import com.example.lazaro.data.UsersRepository
 
             Button(onClick = {
                 if (viewModel.userName == "" || viewModel.password == "") {
-                    Toast.makeText(navRouter.context, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        navRouter.context,
+                        "Por favor, complete todos los campos",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     viewModel.login()
-                    if (viewModel.loginCorrecto) {
-                        val user = UsersRepository.getUsers().find {
-                            it.nombreUsuario == viewModel.userName && it.password == viewModel.password
-                        }
-                        if (user != null) {
-                            sessionViewModel.login(user)
-                            sessionViewModel.saveSession(context, user)
-                        }
-                        navRouter.navigate("homeScreen")
-                        Toast.makeText(
-                            navRouter.context,
-                            "Inicio de sesión exitoso",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            navRouter.context,
-                            "Usuario o contraseña incorrecta",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
                 }
             },
                 modifier = Modifier
@@ -227,6 +218,19 @@ import com.example.lazaro.data.UsersRepository
                 shape = RoundedCornerShape(32.dp)
             ) {
                 Text("Iniciar sesión", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
+            }
+
+
+            LaunchedEffect(viewModel.loginCorrecto) {
+                if(viewModel.loginCorrecto){
+                    val user = viewModel.usuarioAutenticado
+                    if(user != null){
+                        sessionViewModel.login(user)
+                        sessionViewModel.saveSession(context, user)
+                        navRouter.navigate("homeScreen")
+                        Toast.makeText(navRouter.context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
