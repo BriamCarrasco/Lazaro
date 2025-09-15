@@ -67,5 +67,8 @@ dependencies {
     implementation("androidx.room:room-paging-android:2.8.0")
     kapt("androidx.room:room-compiler:2.8.0")
     implementation("androidx.room:room-ktx:2.8.0")
+    implementation ("com.google.dagger:hilt-android:2.57.1")
+    kapt ("com.google.dagger:hilt-android-compiler:2.57.1")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
 
 }
