@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lazaro.data.Users
 import com.example.lazaro.data.UsersRoomRepository
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UsersRoomRepository) : ViewModel() {
@@ -16,21 +18,25 @@ class LoginViewModel(private val repository: UsersRoomRepository) : ViewModel() 
     var password by mutableStateOf("")
     var usuarioAutenticado by mutableStateOf<Users?>(null)
 
+    private val _loginEvent = Channel<LoginState>()
+    val loginEvent = _loginEvent.receiveAsFlow()
+
     var loginState by mutableStateOf<LoginState>(LoginState.Idle)
         private set
 
     fun login() {
         viewModelScope.launch {
-            loginState = LoginState.Loading
             val user = repository.login(userName, password)
             if (user != null) {
                 usuarioAutenticado = user
-                loginState = LoginState.Success
+                _loginEvent.send(LoginState.Success)
             } else {
-                loginState = LoginState.Error
+                _loginEvent.send(LoginState.Error)
             }
         }
     }
+
+
 }
 
 sealed class LoginState {
