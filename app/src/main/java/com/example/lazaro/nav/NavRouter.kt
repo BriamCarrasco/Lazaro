@@ -5,5 +5,6 @@ sealed class NavRouter (val route: String) {
     object RegisterScreen: NavRouter("registerScreen")
     object HomeScreen: NavRouter("homeScreen")
     object RecoverPassScreen: NavRouter("recoverPassScreen")
+    object EditProfile: NavRouter("editProfile")
 
 }
