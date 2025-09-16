@@ -17,8 +17,10 @@ import kotlinx.coroutines.CoroutineScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.navigation.NavHostController
 import com.example.lazaro.feature.session.SessionViewModel
 import androidx.compose.ui.platform.LocalContext
@@ -64,6 +66,20 @@ fun drawerHome(
                     darkThemeEnabled = darkThemeEnabled,
                     onToggleTheme = onToggleTheme
                 )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Button(
+                    onClick = {
+                        navController.navigate("editProfile")
+                        scope.launch { drawerState.close() }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ){
+                    Text("Editar perfil")
+                }
 
                 Spacer(modifier = Modifier.weight(1f))
 
