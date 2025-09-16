@@ -25,6 +25,7 @@ import androidx.room.Room
 import com.example.lazaro.data.AppDatabase
 import com.example.lazaro.feature.session.SessionViewModel
 import com.example.lazaro.data.UsersRoomRepository
+import com.example.lazaro.feature.editprofile.EditProfile
 import com.example.lazaro.feature.login.LoginViewModelFactory
 import com.example.lazaro.feature.register.RegisterViewModelFactory
 
@@ -54,6 +55,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = startDestination
                 ){
+                    // Login Screen
                     composable(NavRouter.LoginScreen.route) {
                         val context = LocalContext.current
                         val factory: LoginViewModelFactory = remember {
@@ -66,6 +68,8 @@ class MainActivity : ComponentActivity() {
                         val loginViewModel: LoginViewModel = viewModel(factory = factory)
                         loginScreen(navController, loginViewModel, sessionViewModel)
                     }
+
+                    // Register Screen
                     composable (NavRouter.RegisterScreen.route){
                         val context = LocalContext.current
                         val registerFactory: RegisterViewModelFactory = remember {
@@ -78,17 +82,31 @@ class MainActivity : ComponentActivity() {
                         val registerViewModel: RegisterViewModel = viewModel(factory = registerFactory)
                         registerScreen(navController, registerViewModel)
                     }
+
+                    // Home Screen
                     composable (NavRouter.HomeScreen.route){
                         homeScreen(navController,
                             darkThemeEnabled = darkThemeEnabled,
                             onToggleTheme = { darkThemeEnabled = !darkThemeEnabled })
                     }
+
+                    // Recover Pass Screen
                     composable (NavRouter.RecoverPassScreen.route) {
                         recoverPassScreen(navController, onBack = {
                             navController.popBackStack()
                         }
                         )
                     }
+
+                    // Edit Profile Screen
+                    composable(NavRouter.EditProfile.route){
+                        EditProfile(navController, onBack = {
+                            navController.popBackStack()
+                        },
+                            sessionViewModel = sessionViewModel
+                        )
+                    }
+
                 }
             }
         }
