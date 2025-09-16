@@ -221,15 +221,19 @@ import com.example.lazaro.data.UsersRoomRepository
             }
 
 
-            LaunchedEffect(viewModel.loginCorrecto) {
-                if(viewModel.loginCorrecto){
-                    val user = viewModel.usuarioAutenticado
-                    if(user != null){
+            LaunchedEffect(viewModel.loginState) {
+                when (viewModel.loginState) {
+                    is LoginState.Success -> {
+                        val user = viewModel.usuarioAutenticado!!
                         sessionViewModel.login(user)
                         sessionViewModel.saveSession(context, user)
                         navRouter.navigate("homeScreen")
-                        Toast.makeText(navRouter.context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                     }
+                    is LoginState.Error -> {
+                        Toast.makeText(context, "Usuario y/o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
                 }
             }
 

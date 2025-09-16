@@ -12,20 +12,30 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UsersRoomRepository) : ViewModel() {
 
-
-    //init { UsersRepository.usersPrecargados() }
-
     var userName by mutableStateOf("")
     var password by mutableStateOf("")
-    var loginCorrecto by mutableStateOf(false)
-    var usuarioAutenticado  by mutableStateOf<Users?>(null)
+    var usuarioAutenticado by mutableStateOf<Users?>(null)
+
+    var loginState by mutableStateOf<LoginState>(LoginState.Idle)
+        private set
 
     fun login() {
         viewModelScope.launch {
+            loginState = LoginState.Loading
             val user = repository.login(userName, password)
-            loginCorrecto = user != null
-            usuarioAutenticado = user
+            if (user != null) {
+                usuarioAutenticado = user
+                loginState = LoginState.Success
+            } else {
+                loginState = LoginState.Error
+            }
         }
     }
+}
 
+sealed class LoginState {
+    object Idle : LoginState()
+    object Loading : LoginState()
+    object Success : LoginState()
+    object Error : LoginState()
 }
