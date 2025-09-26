@@ -28,6 +28,7 @@ import com.example.lazaro.data.UsersRoomRepository
 import com.example.lazaro.feature.editprofile.EditProfile
 import com.example.lazaro.feature.login.LoginViewModelFactory
 import com.example.lazaro.feature.register.RegisterViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : ComponentActivity() {
@@ -46,7 +47,8 @@ class MainActivity : ComponentActivity() {
             LazaroTheme (darkThemeEnabled){
                 val navController = rememberNavController()
                 val sessionViewModel: SessionViewModel = viewModel()
-                val startDestination = if (sessionViewModel.currentUser.value != null) {
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                val startDestination = if (currentUser != null) {
                     NavRouter.HomeScreen.route
                 } else {
                     NavRouter.LoginScreen.route
