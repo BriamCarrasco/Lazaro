@@ -1,5 +1,6 @@
 package com.example.lazaro.feature.editprofile
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,6 +45,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun EditProfile(
@@ -53,6 +55,7 @@ fun EditProfile(
     editProfileViewModel: EditProfileViewModel = viewModel()
 ) {
     val profile by editProfileViewModel.profile.collectAsState()
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         editProfileViewModel.loadUserProfile()
     }
@@ -86,7 +89,15 @@ fun EditProfile(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
-                    onClick = { /* Lógica para actualizar datos */ },
+                    onClick = {
+                        editProfileViewModel.updateUserProfile { success ->
+                            if (success) {
+                                Toast.makeText(context,"Perfil actualizado",Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context,"Error al actualizar el perfil",Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .width(110.dp)
                         .height(48.dp),

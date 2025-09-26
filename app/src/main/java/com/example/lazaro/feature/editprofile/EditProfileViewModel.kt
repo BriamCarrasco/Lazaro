@@ -43,4 +43,20 @@ class EditProfileViewModel : ViewModel() {
             else -> _profile.value
         }
     }
+
+    fun updateUserProfile(onResult: (Boolean) -> Unit) {
+        val user = FirebaseAuth.getInstance().currentUser ?: return
+        val data = mapOf(
+            "nombre" to _profile.value.nombre,
+            "apellidoP" to _profile.value.apellidoP,
+            "apellidoM" to _profile.value.apellidoM,
+            "nombreUsuario" to _profile.value.nombreUsuario,
+            "email" to _profile.value.email
+        )
+        FirebaseFirestore.getInstance().collection("users").document(user.uid)
+            .update(data)
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener { onResult(false) }
+    }
+
 }
