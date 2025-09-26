@@ -41,252 +41,199 @@ import androidx.compose.runtime.setValue
 import topBarBack
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
 @Composable
-fun EditProfile(navRouter: NavController, onBack: () -> Unit, sessionViewModel: SessionViewModel) {
+fun EditProfile(
+    navRouter: NavController,
+    onBack: () -> Unit,
+    sessionViewModel: SessionViewModel,
+    editProfileViewModel: EditProfileViewModel = viewModel()
+) {
+    val profile by editProfileViewModel.profile.collectAsState()
+    LaunchedEffect(Unit) {
+        editProfileViewModel.loadUserProfile()
+    }
 
-
-
-    val currentUser = sessionViewModel.currentUser.value
-
-    var nombre by remember { mutableStateOf(currentUser?.nombre ?: "") }
-    var apellidoP by remember { mutableStateOf(currentUser?.apellidoP ?: "") }
-    var apellidoM by remember { mutableStateOf(currentUser?.ApellidoM ?: "") }
-    var username by remember { mutableStateOf(currentUser?.nombreUsuario ?: "") }
-    var email by remember { mutableStateOf(currentUser?.email ?: "") }
-
-   Scaffold(
-       topBar = {
-           topBarBack(
-               onBackClick = onBack,
-               title = ""
-           )
-       }
+    Scaffold(
+        topBar = {
+            topBarBack(
+                onBackClick = onBack,
+                title = ""
+            )
+        }
     ) { innerPadding ->
-       Column(
-           modifier = Modifier
-               .fillMaxSize()
-               .background(MaterialTheme.colorScheme.background)
-               .verticalScroll(rememberScrollState())
-               .imePadding()
-               .padding(horizontal = 32.dp)
-               .padding(innerPadding),
-           verticalArrangement = Arrangement.Top,
-           horizontalAlignment = Alignment.CenterHorizontally
-       ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .verticalScroll(rememberScrollState())
+                .imePadding()
+                .padding(horizontal = 32.dp)
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row {
+                Text(
+                    text = "Editar perfil",
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Button(
+                    onClick = { /* Lógica para actualizar datos */ },
+                    modifier = Modifier
+                        .width(110.dp)
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    shape = RoundedCornerShape(32.dp)
+                ) {
+                    Text("Actualizar", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
+                }
+            }
 
-           Row(){
-               Text (
-                   text = "Editar perfil",
-                   fontSize = 28.sp,
-                   fontWeight = FontWeight.ExtraBold,
-                   color = MaterialTheme.colorScheme.onBackground,
-                   modifier = Modifier
-                       .weight(1f)
-               )
+            Spacer(modifier = Modifier.height(24.dp))
 
-               Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = "${profile.nombre} ${profile.apellidoP}",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Normal,
+                color = MaterialTheme.colorScheme.inversePrimary,
+                modifier = Modifier.align(Alignment.Start)
+            )
 
-               Button(
-                   onClick = {},
-                   modifier = Modifier
-                       .width(110.dp)
-                       .height(48.dp),
-                   colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                   shape = RoundedCornerShape(32.dp)
+            Spacer(modifier = Modifier.height(24.dp))
 
-               ){
-                   Text("Actualizar", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
-               }
+            Text("Nombre", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Spacer(modifier = Modifier.height(4.dp))
+            TextField(
+                value = profile.nombre,
+                onValueChange = { editProfileViewModel.updateField("nombre", it) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                singleLine = true,
+                placeholder = { Text("Placeholder") }
+            )
 
-           }
+            Spacer(modifier = Modifier.height(24.dp))
 
+            Text("Apellido Paterno", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Spacer(modifier = Modifier.height(4.dp))
+            TextField(
+                value = profile.apellidoP,
+                onValueChange = { editProfileViewModel.updateField("apellidoP", it) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                singleLine = true,
+                placeholder = { Text("Placeholder") }
+            )
 
-           Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-           if(currentUser != null){
-               Text(
-                   text = "${currentUser.nombre} ${currentUser.apellidoP}",
-                   fontSize = 24.sp,
-                     fontWeight = FontWeight.Normal,
-                     color = MaterialTheme.colorScheme.inversePrimary,
-                     modifier = Modifier
-                          .align(Alignment.Start)
-               )
-           }
+            Text("Apellido Materno", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Spacer(modifier = Modifier.height(4.dp))
+            TextField(
+                value = profile.apellidoM,
+                onValueChange = { editProfileViewModel.updateField("apellidoM", it) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                singleLine = true,
+                placeholder = { Text("Placeholder") }
+            )
 
-           Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-           Text(
-               text = "Nombre",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onBackground,
-               modifier = Modifier
-                   .align(Alignment.Start)
-           )
+            Text("Nombre de usuario", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Spacer(modifier = Modifier.height(4.dp))
+            TextField(
+                value = profile.nombreUsuario,
+                onValueChange = { editProfileViewModel.updateField("nombreUsuario", it) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                singleLine = true,
+                placeholder = { Text("Placeholder") }
+            )
 
-           Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-           TextField(
-               value = nombre,
-               onValueChange = { nombre = it },
-               modifier = Modifier.fillMaxWidth(),
-               colors = TextFieldDefaults.colors(
-                   focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                   unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
-                   focusedTextColor = MaterialTheme.colorScheme.primary,
-                   unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                   focusedContainerColor = MaterialTheme.colorScheme.surface,
-                   unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                   cursorColor = MaterialTheme.colorScheme.primary,
-                   focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                   unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
-               ),
-               singleLine = true,
-               placeholder = { Text("Placeholder") }
-           )
+            Text("Correo electrónico", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Spacer(modifier = Modifier.height(4.dp))
+            TextField(
+                value = profile.email,
+                onValueChange = { editProfileViewModel.updateField("email", it) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                singleLine = true,
+                placeholder = { Text("Placeholder") }
+            )
 
-           Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-           Text(
-               text = "Apellido Paterno",
-               fontSize = 16.sp,
-               fontWeight = FontWeight.SemiBold,
-               color = MaterialTheme.colorScheme.onBackground,
-               modifier = Modifier
-                   .align(Alignment.Start)
-           )
-           Spacer(modifier = Modifier.height(4.dp))
-
-           TextField(
-               value = apellidoP,
-               onValueChange = { apellidoP = it },
-               modifier = Modifier.fillMaxWidth(),
-               colors = TextFieldDefaults.colors(
-                   focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                   unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
-                   focusedTextColor = MaterialTheme.colorScheme.primary,
-                   unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                   focusedContainerColor = MaterialTheme.colorScheme.surface,
-                   unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                   cursorColor = MaterialTheme.colorScheme.primary,
-                   focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                   unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
-               ),
-               singleLine = true,
-               placeholder = { Text("Placeholder") }
-           )
-
-           Spacer(modifier = Modifier.height(24.dp))
-
-           Text(
-               text = "Apellido Materno",
-               fontSize = 16.sp,
-               fontWeight = FontWeight.SemiBold,
-               color = MaterialTheme.colorScheme.onBackground,
-               modifier = Modifier
-                   .align(Alignment.Start)
-           )
-
-           Spacer(modifier = Modifier.height(4.dp))
-
-           TextField(
-               value = apellidoM,
-               onValueChange = { apellidoM = it },
-               modifier = Modifier.fillMaxWidth(),
-               colors = TextFieldDefaults.colors(
-                   focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                   unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
-                   focusedTextColor = MaterialTheme.colorScheme.primary,
-                   unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                   focusedContainerColor = MaterialTheme.colorScheme.surface,
-                   unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                   cursorColor = MaterialTheme.colorScheme.primary,
-                   focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                   unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
-               ),
-               singleLine = true,
-               placeholder = { Text("Placeholder") }
-           )
-
-           Spacer(modifier = Modifier.height(24.dp))
-
-           Text(
-               text = "Nombre de usuario",
-               fontSize = 16.sp,
-               fontWeight = FontWeight.SemiBold,
-               color = MaterialTheme.colorScheme.onBackground,
-               modifier = Modifier
-                   .align(Alignment.Start)
-           )
-
-           Spacer(modifier = Modifier.height(4.dp))
-
-           TextField(
-               value = username,
-               onValueChange = { username = it },
-               modifier = Modifier.fillMaxWidth(),
-               colors = TextFieldDefaults.colors(
-                   focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                   unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
-                   focusedTextColor = MaterialTheme.colorScheme.primary,
-                   unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                   focusedContainerColor = MaterialTheme.colorScheme.surface,
-                   unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                   cursorColor = MaterialTheme.colorScheme.primary,
-                   focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                   unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
-               ),
-               singleLine = true,
-               placeholder = { Text("Placeholder") }
-           )
-
-           Spacer(modifier = Modifier.height(24.dp))
-
-           Text(
-               text = "Correo electrónico",
-               fontSize = 16.sp,
-               fontWeight = FontWeight.SemiBold,
-               color = MaterialTheme.colorScheme.onBackground,
-               modifier = Modifier
-                   .align(Alignment.Start)
-           )
-
-           Spacer(modifier = Modifier.height(4.dp))
-
-           TextField(
-               value = email,
-               onValueChange = { email = it },
-               modifier = Modifier.fillMaxWidth(),
-               colors = TextFieldDefaults.colors(
-                   focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                   unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
-                   focusedTextColor = MaterialTheme.colorScheme.primary,
-                   unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                   focusedContainerColor = MaterialTheme.colorScheme.surface,
-                   unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                   cursorColor = MaterialTheme.colorScheme.primary,
-                   focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                   unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
-               ),
-               singleLine = true,
-               placeholder = { Text("Placeholder") }
-           )
-
-              Spacer(modifier = Modifier.height(24.dp))
-
-           Button(
-               onClick = {},
-               modifier = Modifier
-               .width(250.dp)
-               .height(48.dp),
-               colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-               shape = RoundedCornerShape(32.dp)
-
-           ){
-               Text("Actualizar contraseña", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
-           }
-       }
-   }
+            Button(
+                onClick = { /* Lógica para actualizar contraseña */ },
+                modifier = Modifier
+                    .width(250.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                shape = RoundedCornerShape(32.dp)
+            ) {
+                Text("Actualizar contraseña", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
+            }
+        }
+    }
 }
