@@ -19,11 +19,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.navigation.NavHostController
 import com.example.lazaro.feature.session.SessionViewModel
 import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.auth.FirebaseAuth
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,15 +87,18 @@ fun drawerHome(
 
                 Button(
                     onClick = {
-                        sessionViewModel.logout()
-                        sessionViewModel.saveSession(context, null)
+                        //sessionViewModel.logout()
+                        //sessionViewModel.saveSession(context, null)
+                        FirebaseAuth.getInstance().signOut()
                         navController.navigate("loginScreen") {
                             popUpTo("homeScreen") { inclusive = true }
                         }
                     },
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                        .width(250.dp)
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    shape = RoundedCornerShape(32.dp)
                 ) {
                     Text("Cerrar sesión")
                 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "350471230121",
+    "project_id": "lazaro-2a346",
+    "storage_bucket": "lazaro-2a346.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350471230121:android:5310197f30432a34cd0fb8",
+        "android_client_info": {
+          "package_name": "com.example.lazaro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACnOdT-f5ndYVjidiJSLpr-R7EENzec9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

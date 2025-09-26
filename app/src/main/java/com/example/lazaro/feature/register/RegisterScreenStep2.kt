@@ -1,5 +1,7 @@
 package com.example.lazaro.feature.register
 
+import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,15 +48,18 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.example.lazaro.MainActivity
 import topBarBack
 
 
 @Composable
 fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, onBack: () -> Unit) {
     var passwordVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -208,6 +213,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        /*
         Button(
             onClick = onRegister,
             modifier = Modifier
@@ -218,5 +224,30 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
         ) {
             Text("Registrate", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
         }
+        */
+
+        Button(onClick = {
+
+                viewModel.registerUserFireBase { success, errorMsg ->
+                    if (success) {
+                        Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
+                        context.startActivity(
+                            android.content.Intent(context, MainActivity::class.java)
+                        )
+                        if (context is ComponentActivity) {
+                            context.finish()
+                        }
+                    } else {
+                        Toast.makeText(context, errorMsg ?: "Error al registrar", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        },
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+            shape = RoundedCornerShape(32.dp)
+        ) {
+            Text("Finalizar")
+        }
+
     }
-}}
+    }
+}

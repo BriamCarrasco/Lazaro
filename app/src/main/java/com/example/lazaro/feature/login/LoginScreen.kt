@@ -53,11 +53,13 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.lazaro.feature.session.SessionViewModel
 import com.example.lazaro.data.AppDatabase
 import com.example.lazaro.data.UsersRoomRepository
+import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
     fun loginScreen(navRouter: NavHostController, viewModel: LoginViewModel, sessionViewModel: SessionViewModel) {
-        var userName by remember { mutableStateOf("") }
+        //var userName by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
         val context = LocalContext.current
@@ -126,10 +128,10 @@ import com.example.lazaro.data.UsersRoomRepository
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
-                value = viewModel.userName,
-                onValueChange = { viewModel.userName = it },
+                value = email,
+                onValueChange = { email = it },
                 placeholder = {
-                    Text("Nombre de usuario",
+                    Text("email",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = TextStyle(textAlign = TextAlign.Center),
                         modifier = Modifier.fillMaxWidth()
@@ -158,8 +160,8 @@ import com.example.lazaro.data.UsersRoomRepository
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
-                value = viewModel.password,
-                onValueChange = { viewModel.password = it },
+                value = password,
+                onValueChange = { password = it },
                 placeholder = {
                     Text("Contraseña",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -200,6 +202,7 @@ import com.example.lazaro.data.UsersRoomRepository
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            /*
             Button(onClick = {
                 if (viewModel.userName == "" || viewModel.password == "") {
                     Toast.makeText(
@@ -221,6 +224,7 @@ import com.example.lazaro.data.UsersRoomRepository
             }
 
 
+
             LaunchedEffect(Unit) {
                 viewModel.loginEvent.collect { state ->
                     when (state) {
@@ -237,6 +241,32 @@ import com.example.lazaro.data.UsersRoomRepository
                         else -> Unit
                     }
                 }
+            }
+            */
+
+            Button(
+                onClick = {
+                    if (email.isBlank() || password.isBlank()) {
+                        Toast.makeText(context, "Completa ambos campos", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val auth = FirebaseAuth.getInstance()
+                        auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    navRouter.navigate("homeScreen")
+                                } else {
+                                    Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                    }
+                },
+                modifier = Modifier
+                    .width(250.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                shape = RoundedCornerShape(32.dp)
+            ) {
+                Text("Iniciar sesión", fontSize = 16.sp, color = Color.White)
             }
 
             Spacer(modifier = Modifier.height(16.dp))

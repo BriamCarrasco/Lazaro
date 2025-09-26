@@ -11,6 +11,7 @@ import com.example.lazaro.data.UsersRoomRepository
 import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import com.google.firebase.auth.FirebaseAuth
 
 class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel() {
     var id by mutableStateOf(0)
@@ -20,6 +21,7 @@ class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel
     var ApellidoM by mutableStateOf("")
     var email by mutableStateOf("")
     var password by mutableStateOf("")
+
 
     fun registerUser() {
         val newUser = Users(
@@ -47,4 +49,21 @@ class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel
                 email.isNotBlank() &&
                 password.isNotBlank()
     }
+
+
+    fun registerUserFireBase(onResult: (Boolean, String?) -> Unit) {
+        val auth = FirebaseAuth.getInstance()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onResult(true, null)
+                } else {
+                    onResult(false, task.exception?.message)
+                }
+            }
+
+    }
+
+
+
 }
