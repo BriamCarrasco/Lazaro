@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel() {
     var id by mutableStateOf(0)
@@ -53,15 +54,26 @@ class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel
 
     fun registerUserFireBase(onResult: (Boolean, String?) -> Unit) {
         val auth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    onResult(true, null)
+                    val userId = auth.currentUser?.uid ?: ""
+                    val userMap = hashMapOf(
+                        "nombreUsuario" to nombreUsuario,
+                        "nombre" to nombre,
+                        "apellidoP" to apellidoP,
+                        "apellidoM" to ApellidoM,
+                        "email" to email
+                    )
+                    db.collection("users").document(userId)
+                        .set(userMap)
+                        .addOnSuccessListener { onResult(true, null) }
+                        .addOnFailureListener { e -> onResult(false, e.message) }
                 } else {
                     onResult(false, task.exception?.message)
                 }
             }
-
     }
 
 
