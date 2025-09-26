@@ -26,6 +26,9 @@ import androidx.navigation.NavHostController
 import com.example.lazaro.feature.session.SessionViewModel
 import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import androidx.compose.runtime.setValue
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,6 +45,20 @@ fun drawerHome(
     val context = LocalContext.current
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    var nombre by remember { mutableStateOf<String?>(null) }
+    var apellidoP by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.uid?.let { uid ->
+            FirebaseFirestore.getInstance().collection("users").document(uid)
+                .get()
+                .addOnSuccessListener { doc ->
+                    nombre = doc.getString("nombre")
+                    apellidoP = doc.getString("apellidoP")
+                }
+        }
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -50,9 +67,12 @@ fun drawerHome(
                 modifier = Modifier.width(280.dp)
             ){
 
-                val currentUser = sessionViewModel.currentUser.value
+                //val currentUser = sessionViewModel.currentUser.value
 
-                Log.d("Drawer", "Current user: $currentUser")
+                //Log.d("Drawer", "Current user: $currentUser")
+
+                /*
+
                 Text(
                     text = if (currentUser != null) {
                         "Bienvenido, ${currentUser.nombre} ${currentUser.apellidoP}"
@@ -62,13 +82,22 @@ fun drawerHome(
                     modifier = Modifier.padding(16.dp),
                     color = MaterialTheme.colorScheme.primary,
                 )
+                */
 
+                Text(
+                    text = if (nombre != null && apellidoP != null) {
+                        "Bienvenido, $nombre $apellidoP"
+                    } else {
+                        "Bienvenido"
+                    },
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                )
 
                 ThemeSwitcherLottie(
                     darkThemeEnabled = darkThemeEnabled,
                     onToggleTheme = onToggleTheme
                 )
-
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
