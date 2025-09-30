@@ -112,6 +112,18 @@ fun drawerHome(
                     Text("Editar perfil")
                 }
 
+                Button(
+                    onClick = {
+                        navController.navigate("settingsScreen")
+                        scope.launch { drawerState.close() }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ){
+                    Text("Configuraciones")
+                }
+
                 Spacer(modifier = Modifier.weight(1f))
 
                 Button(
@@ -124,8 +136,8 @@ fun drawerHome(
                         }
                     },
                     modifier = Modifier
-                        .width(250.dp)
-                        .height(48.dp),
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     shape = RoundedCornerShape(32.dp)
                 ) {
