@@ -21,8 +21,8 @@ class LoginViewModel(private val repository: UsersRoomRepository) : ViewModel() 
     private val _loginEvent = Channel<LoginState>()
     val loginEvent = _loginEvent.receiveAsFlow()
 
-    var loginState by mutableStateOf<LoginState>(LoginState.Idle)
-        private set
+    //var loginState by mutableStateOf<LoginState>(LoginState.Idle)
+      //  private set
 
     fun login() {
         viewModelScope.launch {
