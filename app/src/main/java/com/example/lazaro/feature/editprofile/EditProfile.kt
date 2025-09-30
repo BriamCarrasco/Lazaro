@@ -54,8 +54,14 @@ fun EditProfile(
     sessionViewModel: SessionViewModel,
     editProfileViewModel: EditProfileViewModel = viewModel()
 ) {
-    val profile by editProfileViewModel.profile.collectAsState()
+    //val profile by editProfileViewModel.profile.collectAsState()
     val context = LocalContext.current
+    val profile by editProfileViewModel.profile.collectAsState()
+    val originalProfile by editProfileViewModel.originalProfile.collectAsState()
+
+    val isModified = originalProfile != null && profile != originalProfile
+
+
     LaunchedEffect(Unit) {
         editProfileViewModel.loadUserProfile()
     }
@@ -98,10 +104,16 @@ fun EditProfile(
                             }
                         }
                     },
+                    enabled = isModified,
                     modifier = Modifier
                         .width(110.dp)
                         .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isModified) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
+                        contentColor = if (isModified) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondary,
+                        disabledContainerColor = MaterialTheme.colorScheme.secondary,
+                        disabledContentColor = MaterialTheme.colorScheme.onSecondary
+                    ),
                     shape = RoundedCornerShape(32.dp)
                 ) {
                     Text("Actualizar", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
@@ -111,7 +123,7 @@ fun EditProfile(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "${profile.nombre} ${profile.apellidoP}",
+                text = "${originalProfile?.nombre.orEmpty()} ${originalProfile?.apellidoP.orEmpty()}",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.inversePrimary,
@@ -236,7 +248,7 @@ fun EditProfile(
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { /* Lógica para actualizar contraseña */ },
+                onClick = { navRouter.navigate("updatePasswordScreen") },
                 modifier = Modifier
                     .width(250.dp)
                     .height(48.dp),
