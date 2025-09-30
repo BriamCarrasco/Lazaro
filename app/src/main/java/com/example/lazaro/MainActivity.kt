@@ -28,6 +28,8 @@ import com.example.lazaro.data.UsersRoomRepository
 import com.example.lazaro.feature.editprofile.EditProfile
 import com.example.lazaro.feature.login.LoginViewModelFactory
 import com.example.lazaro.feature.register.RegisterViewModelFactory
+import com.example.lazaro.feature.settings.SettingsScreen
+import com.example.lazaro.feature.updatepassword.UpdatePasswordScreen
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -107,6 +109,21 @@ class MainActivity : ComponentActivity() {
                         },
                             sessionViewModel = sessionViewModel
                         )
+                    }
+
+                    // Update Password Screen
+                    composable(NavRouter.UpdatePasswordScreen.route){
+                        UpdatePasswordScreen(navController, onBack = {
+                            navController.popBackStack()
+                        },
+                        )
+                    }
+
+                    // Settings Screen
+                    composable(NavRouter.SettingsScreen.route){
+                        SettingsScreen(navRouter = navController, onBack = {
+                            navController.popBackStack()
+                        })
                     }
 
                 }

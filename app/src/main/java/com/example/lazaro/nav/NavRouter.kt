@@ -7,4 +7,7 @@ sealed class NavRouter (val route: String) {
     object RecoverPassScreen: NavRouter("recoverPassScreen")
     object EditProfile: NavRouter("editProfile")
 
+    object UpdatePasswordScreen: NavRouter("updatePasswordScreen")
+    object SettingsScreen: NavRouter("settingsScreen")
+
 }
