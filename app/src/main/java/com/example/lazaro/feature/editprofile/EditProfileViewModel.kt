@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.text.get
 
 data class UserProfile(
     val nombre: String = "",
@@ -17,19 +18,24 @@ data class UserProfile(
 class EditProfileViewModel : ViewModel() {
     private val _profile = MutableStateFlow(UserProfile())
     val profile: StateFlow<UserProfile> = _profile
+    private val _originalProfile = MutableStateFlow<UserProfile?>(null)
+
+    val originalProfile: StateFlow<UserProfile?> = _originalProfile
 
     fun loadUserProfile() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         FirebaseFirestore.getInstance().collection("users").document(user.uid)
             .get()
             .addOnSuccessListener { doc ->
-                _profile.value = UserProfile(
+                val loadedProfile = UserProfile(
                     nombre = doc.getString("nombre") ?: "",
                     apellidoP = doc.getString("apellidoP") ?: "",
                     apellidoM = doc.getString("apellidoM") ?: "",
                     nombreUsuario = doc.getString("nombreUsuario") ?: "",
                     email = doc.getString("email") ?: ""
                 )
+                _profile.value = loadedProfile
+                _originalProfile.value = loadedProfile // Guarda el original
             }
     }
 
