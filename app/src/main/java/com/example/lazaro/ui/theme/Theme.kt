@@ -168,6 +168,7 @@ fun LazaroTheme(
     darkTheme: Boolean,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
+    fontScale: Float = 1.0f,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -182,7 +183,7 @@ fun LazaroTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = getScaledTypography(fontScale),
         content = content
     )
 }

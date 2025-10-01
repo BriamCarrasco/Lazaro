@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
@@ -28,6 +29,7 @@ import com.example.lazaro.data.UsersRoomRepository
 import com.example.lazaro.feature.editprofile.EditProfile
 import com.example.lazaro.feature.login.LoginViewModelFactory
 import com.example.lazaro.feature.register.RegisterViewModelFactory
+import com.example.lazaro.feature.settings.FontScaleViewModel
 import com.example.lazaro.feature.settings.SettingsScreen
 import com.example.lazaro.feature.updatepassword.UpdatePasswordScreen
 import com.google.firebase.auth.FirebaseAuth
@@ -46,7 +48,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             var darkThemeEnabled by remember { mutableStateOf(true) }
-            LazaroTheme (darkThemeEnabled){
+            val fontScaleViewModel: FontScaleViewModel = viewModel()
+            val fontScale by fontScaleViewModel.fontScale.collectAsState()
+            LazaroTheme (darkThemeEnabled, fontScale = fontScale){
                 val navController = rememberNavController()
                 val sessionViewModel: SessionViewModel = viewModel()
                 val currentUser = FirebaseAuth.getInstance().currentUser
@@ -55,6 +59,7 @@ class MainActivity : ComponentActivity() {
                 } else {
                     NavRouter.LoginScreen.route
                 }
+
                 NavHost(
                     navController = navController,
                     startDestination = startDestination
@@ -122,10 +127,11 @@ class MainActivity : ComponentActivity() {
                     // Settings Screen
                     composable(NavRouter.SettingsScreen.route){
                         SettingsScreen(navRouter = navController, onBack = {
-                            navController.popBackStack()
-                        })
-                    }
-
+                            navController.popBackStack() },
+                            darkThemeEnabled = darkThemeEnabled,
+                            onToggleTheme = { darkThemeEnabled = !darkThemeEnabled },
+                            fontScaleViewModel = fontScaleViewModel
+                        )}
                 }
             }
         }
