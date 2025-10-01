@@ -28,7 +28,9 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.compose.runtime.setValue
-
+import androidx.compose.foundation.layout.Row
+import androidx.compose.animation.Crossfade
+import androidx.compose.ui.Alignment
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,11 +96,29 @@ fun drawerHome(
                     color = MaterialTheme.colorScheme.primary,
                 )
 
-                ThemeSwitcherLottie(
-                    darkThemeEnabled = darkThemeEnabled,
-                    onToggleTheme = onToggleTheme
-                )
-                Spacer(modifier = Modifier.height(24.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                ){
+                    Crossfade(targetState = darkThemeEnabled, label = "themeText") { dark ->
+                        val text = if (dark) "Activar tema claro" else "Activar tema oscuro"
+                        androidx.compose.material3.Text(
+                            text = text,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    ThemeSwitcherLottie(
+                        darkThemeEnabled = darkThemeEnabled,
+                        onToggleTheme = onToggleTheme,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
                     onClick = {

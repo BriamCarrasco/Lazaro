@@ -27,22 +27,26 @@ import androidx.compose.ui.res.painterResource
 @Composable
 fun ThemeSwitcherLottie(
     darkThemeEnabled: Boolean,
-    onToggleTheme: () -> Unit
+    onToggleTheme: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
         modifier = Modifier
-            .padding(16.dp)
+            //.padding(16.dp)
             .clickable { onToggleTheme() }
     ) {
+        /*
         // Texto en vez de icono
         Crossfade(targetState = darkThemeEnabled, label = "themeText") { dark ->
             val text = if (dark) "Activar tema claro" else "Activar tema oscuro"
             androidx.compose.material3.Text(
                 text = text,
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = modifier.padding(end = 8.dp)
             )
         }
+
+        */
 
         Spacer(modifier = Modifier.width(8.dp))
 
