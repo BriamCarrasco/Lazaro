@@ -29,6 +29,21 @@ fun getScaledTypography(fontScale: Float): Typography = Typography(
         lineHeight = (16 * fontScale).sp,
         letterSpacing = (0.5 * fontScale).sp
     ),
+    titleMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = (24 * fontScale).sp,
+        lineHeight = (16 * fontScale).sp,
+        letterSpacing = (0.5 * fontScale).sp
+    ),
+    titleSmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = (20 * fontScale).sp,
+        lineHeight = (16 * fontScale).sp,
+        letterSpacing = (0.5 * fontScale).sp
+    ),
+
 
 
 

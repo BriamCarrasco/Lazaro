@@ -86,7 +86,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
 
         Text (
             text = "LAZARO",
-            fontSize = 32.sp,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.ExtraBold,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -95,7 +95,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
 
         Text (
             text = "Registro",
-            fontSize = 24.sp,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.ExtraBold,
             color = MaterialTheme.colorScheme.inversePrimary
         )
@@ -103,7 +103,7 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
         Spacer(modifier = Modifier.height(16.dp))
 
         Text ("Datos de usuario",
-            fontSize = 16.sp,
+            style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Normal,
             color = MaterialTheme.colorScheme.inversePrimary
         )
@@ -116,8 +116,9 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             placeholder = {
                 Text("Nombre de usuario",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = TextStyle(textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge
 
                 )
             },
@@ -146,8 +147,9 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             placeholder = {
                 Text("Email",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = TextStyle(textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge
 
                 )
             },
@@ -177,8 +179,9 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             placeholder = {
                 Text("Contraseña",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = TextStyle (textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxWidth()
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge
 
                 )
             },
@@ -245,7 +248,8 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(32.dp)
         ) {
-            Text("Finalizar")
+            Text("Finalizar",
+                style = MaterialTheme.typography.bodyLarge)
         }
 
     }

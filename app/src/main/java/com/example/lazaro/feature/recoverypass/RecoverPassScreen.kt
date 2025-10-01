@@ -66,7 +66,7 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
 
             Text (
                 text = "LAZARO",
-                fontSize = 32.sp,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -75,7 +75,7 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
 
             Text (
                 text = "Recuperar contraseña",
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.inversePrimary
             )
@@ -87,9 +87,10 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
                 onValueChange = { email = it },
                 placeholder = {
                     Text("Correo electrónico",
-                        color = Color.Gray,
-                        style = TextStyle(textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyLarge
 
                     )
                 },
@@ -125,7 +126,7 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(32.dp)) {
 
-                Text("Enviar enlace", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
+                Text("Enviar enlace", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
             }
         }
     }

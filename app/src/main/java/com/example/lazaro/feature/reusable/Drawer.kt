@@ -30,7 +30,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.Row
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.TextOverflow
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,34 +68,20 @@ fun drawerHome(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet (
-                modifier = Modifier.width(280.dp)
+                modifier = Modifier.widthIn(min = 200.dp, max = 450.dp)
             ){
-
-                //val currentUser = sessionViewModel.currentUser.value
-
-                //Log.d("Drawer", "Current user: $currentUser")
-
-                /*
-
-                Text(
-                    text = if (currentUser != null) {
-                        "Bienvenido, ${currentUser.nombre} ${currentUser.apellidoP}"
-                    } else {
-                        "Bienvenido"
-                    },
-                    modifier = Modifier.padding(16.dp),
-                    color = MaterialTheme.colorScheme.primary,
-                )
-                */
 
                 Text(
                     text = if (nombre != null && apellidoP != null) {
-                        "Bienvenido, $nombre $apellidoP"
+                        "Bienvenido: $nombre $apellidoP"
                     } else {
                         "Bienvenido"
                     },
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
                     color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.titleSmall,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
 
 
@@ -104,10 +92,11 @@ fun drawerHome(
                         .fillMaxWidth()
                 ){
                     Crossfade(targetState = darkThemeEnabled, label = "themeText") { dark ->
-                        val text = if (dark) "Activar tema claro" else "Activar tema oscuro"
-                        androidx.compose.material3.Text(
+                        val text = if (dark) "Desactivar tema oscuro" else "Activar tema oscuro"
+                        Text(
                             text = text,
-                            modifier = Modifier.padding(end = 8.dp)
+                            modifier = Modifier.padding(end = 8.dp),
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
@@ -129,7 +118,8 @@ fun drawerHome(
                         .fillMaxWidth()
                         .padding(16.dp)
                 ){
-                    Text("Editar perfil")
+                    Text("Editar perfil",
+                        style = MaterialTheme.typography.bodyLarge)
                 }
 
                 Button(
@@ -141,7 +131,8 @@ fun drawerHome(
                         .fillMaxWidth()
                         .padding(16.dp)
                 ){
-                    Text("Configuraciones")
+                    Text("Configuraciones",
+                        style = MaterialTheme.typography.bodyLarge)
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -161,7 +152,8 @@ fun drawerHome(
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     shape = RoundedCornerShape(32.dp)
                 ) {
-                    Text("Cerrar sesión")
+                    Text("Cerrar sesión",
+                        style = MaterialTheme.typography.bodyLarge)
                 }
             }
         }

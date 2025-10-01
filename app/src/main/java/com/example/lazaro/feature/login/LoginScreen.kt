@@ -111,7 +111,7 @@ import com.google.firebase.auth.FirebaseAuth
 
             Text (
                 text = "LAZARO",
-                fontSize = 32.sp,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -120,7 +120,7 @@ import com.google.firebase.auth.FirebaseAuth
 
             Text (
                 text = "Iniciar sesión para continuar",
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.inversePrimary
             )
@@ -133,8 +133,9 @@ import com.google.firebase.auth.FirebaseAuth
                 placeholder = {
                     Text("email",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = TextStyle(textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
 
                     )
                 },
@@ -165,8 +166,9 @@ import com.google.firebase.auth.FirebaseAuth
                 placeholder = {
                     Text("Contraseña",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyLarge
 
                     )
                 },
@@ -266,14 +268,14 @@ import com.google.firebase.auth.FirebaseAuth
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(32.dp)
             ) {
-                Text("Iniciar sesión", fontSize = 16.sp, color = Color.White)
+                Text("Iniciar sesión", style = MaterialTheme.typography.bodyLarge, color = Color.White)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "¿Olvidaste tu contraseña?",
-                fontSize = 14.sp,
+                style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center,
@@ -288,7 +290,7 @@ import com.google.firebase.auth.FirebaseAuth
 
                 Text(
                     text = "¿No tienes una cuenta?",
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.inversePrimary,
                     textAlign = TextAlign.Center,
@@ -296,7 +298,7 @@ import com.google.firebase.auth.FirebaseAuth
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Registrate",
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.secondary,
                     textAlign = TextAlign.Center,

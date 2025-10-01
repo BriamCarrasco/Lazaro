@@ -101,7 +101,7 @@ fun UpdatePasswordScreen(
         ) {
             Text (
                 text = "Actualiza tu contraseña",
-                fontSize = 24.sp,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -115,8 +115,9 @@ fun UpdatePasswordScreen(
                 placeholder = {
                     Text("Contraseña actual",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyLarge
 
                     )
                 },
@@ -154,7 +155,7 @@ fun UpdatePasswordScreen(
 
             Text (
                 text = "Ingresa nueva contraseña",
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -167,8 +168,9 @@ fun UpdatePasswordScreen(
                 placeholder = {
                     Text("Ingrese nueva contraseña",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyLarge
 
                     )
                 },
@@ -210,8 +212,9 @@ fun UpdatePasswordScreen(
                 placeholder = {
                     Text("Confirmar contraseña",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = TextStyle (textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyLarge
 
                     )
                 },
@@ -257,7 +260,7 @@ fun UpdatePasswordScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(32.dp)
             ) {
-                Text("Cambiar contraseña", fontSize = 16.sp, color = Color.White)
+                Text("Cambiar contraseña", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
             }
         }
     }

@@ -88,12 +88,14 @@ fun EditProfile(
             Row {
                 Text(
                     text = "Editar perfil",
-                    fontSize = 28.sp,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.weight(1f)
                 )
+
                 Spacer(modifier = Modifier.width(16.dp))
+
                 Button(
                     onClick = {
                         editProfileViewModel.updateUserProfile { success ->
@@ -106,7 +108,6 @@ fun EditProfile(
                     },
                     enabled = isModified,
                     modifier = Modifier
-                        .width(110.dp)
                         .height(48.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isModified) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
@@ -116,7 +117,11 @@ fun EditProfile(
                     ),
                     shape = RoundedCornerShape(32.dp)
                 ) {
-                    Text("Actualizar", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Actualizar",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onPrimary,
+
+                    )
                 }
             }
 
@@ -124,7 +129,7 @@ fun EditProfile(
 
             Text(
                 text = "${originalProfile?.nombre.orEmpty()} ${originalProfile?.apellidoP.orEmpty()}",
-                fontSize = 24.sp,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.inversePrimary,
                 modifier = Modifier.align(Alignment.Start)
@@ -132,7 +137,7 @@ fun EditProfile(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Nombre", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Text("Nombre", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
             Spacer(modifier = Modifier.height(4.dp))
             TextField(
                 value = profile.nombre,
@@ -150,12 +155,12 @@ fun EditProfile(
                     unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true,
-                placeholder = { Text("Placeholder") }
+                placeholder = { Text("Nombre", style = MaterialTheme.typography.bodyLarge) }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Apellido Paterno", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Text("Apellido Paterno", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
             Spacer(modifier = Modifier.height(4.dp))
             TextField(
                 value = profile.apellidoP,
@@ -173,12 +178,12 @@ fun EditProfile(
                     unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true,
-                placeholder = { Text("Placeholder") }
+                placeholder = { Text("Apellido Paterno", style = MaterialTheme.typography.bodyLarge) }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Apellido Materno", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Text("Apellido Materno", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
             Spacer(modifier = Modifier.height(4.dp))
             TextField(
                 value = profile.apellidoM,
@@ -196,12 +201,12 @@ fun EditProfile(
                     unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true,
-                placeholder = { Text("Placeholder") }
+                placeholder = { Text("Apellido materno",style = MaterialTheme.typography.bodyLarge) }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Nombre de usuario", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Text("Nombre de usuario", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
             Spacer(modifier = Modifier.height(4.dp))
             TextField(
                 value = profile.nombreUsuario,
@@ -219,12 +224,12 @@ fun EditProfile(
                     unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true,
-                placeholder = { Text("Placeholder") }
+                placeholder = { Text("Nombre de usuario",style = MaterialTheme.typography.bodyLarge) }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Correo electrónico", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
+            Text("Correo electrónico", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.align(Alignment.Start))
             Spacer(modifier = Modifier.height(4.dp))
             TextField(
                 value = profile.email,
@@ -242,7 +247,7 @@ fun EditProfile(
                     unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true,
-                placeholder = { Text("Placeholder") }
+                placeholder = { Text("Correo", style = MaterialTheme.typography.bodyLarge) }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -255,7 +260,11 @@ fun EditProfile(
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(32.dp)
             ) {
-                Text("Actualizar contraseña", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
+                Text("Actualizar contraseña",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    textAlign = TextAlign.Center,
+                )
             }
         }
     }

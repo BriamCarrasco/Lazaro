@@ -150,7 +150,7 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
                 ) {
                     Text(
                         text = "Escanear billete",
-                        fontSize = 30.sp,
+                        style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground,
                     )

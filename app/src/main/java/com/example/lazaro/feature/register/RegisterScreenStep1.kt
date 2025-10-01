@@ -59,7 +59,7 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack
 
             Text (
                 text = "LAZARO",
-                fontSize = 32.sp,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -68,7 +68,7 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack
 
             Text (
                 text = "Registro",
-                fontSize = 24.sp,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.inversePrimary
             )
@@ -76,7 +76,7 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack
             Spacer(modifier = Modifier.height(16.dp))
 
             Text ("Datos personales",
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Normal,
                 color =  MaterialTheme.colorScheme.inversePrimary
             )
@@ -89,7 +89,8 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack
                 placeholder = {
                     Text("Nombre",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = TextStyle(textAlign = TextAlign.Center),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.fillMaxWidth()
 
                     )
@@ -119,8 +120,9 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack
                 placeholder = {
                     Text("Apellido paterno",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = TextStyle(textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyLarge
 
                     )
                 },
@@ -149,8 +151,9 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack
                 placeholder = {
                     Text("Apellido materno",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = TextStyle(textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth()
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyLarge
 
                     )
                 },
@@ -181,7 +184,7 @@ fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(32.dp)
             ) {
-                Text("Siguiente", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
+                Text("Siguiente", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
             }
         }
     }
