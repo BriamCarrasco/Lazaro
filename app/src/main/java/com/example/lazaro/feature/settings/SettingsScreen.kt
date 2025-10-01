@@ -77,6 +77,15 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            Text(
+                text = "Accesibilidad",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.inversePrimary,
+                modifier = Modifier.align(Alignment.Start)
+                    .padding(16.dp)
+
+            )
+
             HorizontalDivider()
 
             ListItem(
