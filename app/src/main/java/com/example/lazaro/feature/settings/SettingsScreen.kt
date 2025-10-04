@@ -62,7 +62,6 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .imePadding()
                 .padding(innerPadding),
-            //verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
