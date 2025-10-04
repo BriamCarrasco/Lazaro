@@ -33,6 +33,9 @@ import com.example.lazaro.feature.settings.FontScaleViewModel
 import com.example.lazaro.feature.settings.SettingsScreen
 import com.example.lazaro.feature.updatepassword.UpdatePasswordScreen
 import com.google.firebase.auth.FirebaseAuth
+import com.example.lazaro.feature.location.LocationScreen
+import com.example.lazaro.feature.sst.sttscreen
+import com.example.lazaro.feature.tts.ttsscreen
 
 
 class MainActivity : ComponentActivity() {
@@ -131,7 +134,28 @@ class MainActivity : ComponentActivity() {
                             darkThemeEnabled = darkThemeEnabled,
                             onToggleTheme = { darkThemeEnabled = !darkThemeEnabled },
                             fontScaleViewModel = fontScaleViewModel
-                        )}
+                        )
+                    }
+
+                    // Location Screen
+                    composable (NavRouter.LocationScreen.route){
+                        LocationScreen(navRouter = navController, onBack = {
+                            navController.popBackStack()
+                        })
+                    }
+
+                    composable(NavRouter.STTScreen.route){
+                        sttscreen(navRouter = navController, onBack = {
+                            navController.popBackStack()
+                         })
+                    }
+
+                    composable(NavRouter.TTSScreen.route){
+                        ttsscreen(navRouter = navController, onBack = {
+                            navController.popBackStack()
+                        })
+                    }
+
                 }
             }
         }
