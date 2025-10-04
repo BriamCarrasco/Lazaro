@@ -48,6 +48,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Card
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -60,6 +61,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lazaro.feature.session.SessionViewModel
 import com.example.lazaro.data.UsersRoomRepository
 import com.example.lazaro.data.AppDatabase
+import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.graphics.RenderEffect
+import androidx.compose.ui.graphics.graphicsLayer
+
 
 
 @Composable
@@ -148,31 +153,141 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = "Escanear billete",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.scan))
-                    val progress by animateLottieCompositionAsState(
-                        composition,
-                        iterations = LottieConstants.IterateForever
-                    )
-                    AnimatedVisibility(visible = !showCamera) {
-                        Box(
-                            modifier = Modifier
-                                .height(300.dp)
-                                .width(300.dp)
-                                .clip(CircleShape)
-                                .clickable { showCamera = true }
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp)
+                            .height(200.dp)
+                            .clickable {
+                                showCamera = true
+                            },
+                            colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                            )
                         ) {
-                            LottieAnimation(
-                                composition = composition,
-                                progress = { progress },
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.dinero),
+                                contentDescription = "Escanear billete",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp)
+                                    .align(Alignment.Center),
+                                alpha = 0.1f
+                            )
+                            Text(
+                                text = "Escanear billete",
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.align(Alignment.Center)
                             )
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp)
+                            .clickable{
+                                navRouter.navigate("locationScreen")
+                            }
+                            .height(200.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.mapa),
+                                contentDescription = "Mi ubicación",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp)
+                                    .align(Alignment.Center),
+                                alpha = 0.1f
+                            )
+                            Text(
+                                text = "Mi ubicación",
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row {
+                        Card(
+                            modifier = Modifier
+                                .size(200.dp)
+                                .weight(1f)
+                                .clickable { navRouter.navigate("ttsScreen") }
+                                .padding(vertical = 16.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primary
+                            )
+                        ) {
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.hablando),
+                                    contentDescription = "Leer",
+                                    modifier = Modifier
+                                        .size(100.dp)
+                                        .align(Alignment.Center),
+                                    alpha = 0.1f
+                                )
+                                Text(
+                                    text = "Leer",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Card(
+                            modifier = Modifier
+                                .size(200.dp)
+                                .weight(1f)
+                                .clickable { navRouter.navigate("sttScreen") }
+                                .padding(vertical = 16.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primary
+                            )
+                        ) {
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.microfono),
+                                    contentDescription = "Escuchar",
+                                    modifier = Modifier
+                                        .size(100.dp)
+                                        .align(Alignment.Center),
+                                    alpha = 0.1f
+                                )
+                                Text(
+                                    text = "Escuchar",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+                            }
+                        }
+                    }
+
+
                 }
             },
             darkThemeEnabled = darkThemeEnabled,
