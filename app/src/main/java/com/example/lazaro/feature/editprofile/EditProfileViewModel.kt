@@ -7,6 +7,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.text.get
 
+
+/**
+ * ViewModel encargado de gestionar la edición y actualización del perfil de usuario.
+ *
+ * Utiliza Firebase Authentication y Firestore para cargar y actualizar los datos del usuario.
+ * Expone el estado del perfil editable y el perfil original mediante flujos observables.
+ */
 data class UserProfile(
     val nombre: String = "",
     val apellidoP: String = "",
@@ -16,12 +23,24 @@ data class UserProfile(
 )
 
 class EditProfileViewModel : ViewModel() {
+
+    /**
+     * Estado observable que contiene el perfil editable del usuario.
+     */
     private val _profile = MutableStateFlow(UserProfile())
     val profile: StateFlow<UserProfile> = _profile
+
+    /**
+     * Estado observable que contiene el perfil original cargado desde la base de datos.
+     */
     private val _originalProfile = MutableStateFlow<UserProfile?>(null)
 
     val originalProfile: StateFlow<UserProfile?> = _originalProfile
 
+
+    /**
+     * Carga el perfil del usuario actual desde Firestore y actualiza los estados observables.
+     */
     fun loadUserProfile() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         FirebaseFirestore.getInstance().collection("users").document(user.uid)
@@ -39,6 +58,13 @@ class EditProfileViewModel : ViewModel() {
             }
     }
 
+
+    /**
+     * Actualiza un campo específico del perfil editable.
+     *
+     * @param field Nombre del campo a actualizar (por ejemplo, "nombre", "apellidoP").
+     * @param value Nuevo valor para el campo.
+     */
     fun updateField(field: String, value: String) {
         _profile.value = when (field) {
             "nombre" -> _profile.value.copy(nombre = value)
@@ -50,6 +76,12 @@ class EditProfileViewModel : ViewModel() {
         }
     }
 
+
+    /**
+     * Actualiza el perfil del usuario en Firestore con los datos actuales del perfil editable.
+     *
+     * @param onResult Callback que indica si la actualización fue exitosa.
+     */
     fun updateUserProfile(onResult: (Boolean) -> Unit) {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val data = mapOf(

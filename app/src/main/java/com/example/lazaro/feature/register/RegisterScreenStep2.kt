@@ -57,6 +57,17 @@ import com.google.firebase.auth.FirebaseAuth
 import topBarBack
 
 
+/**
+ * Pantalla de registro - Paso 2.
+ *
+ * Permite al usuario ingresar su nombre de usuario, correo electrónico y contraseña para completar el registro.
+ * Incluye campos de texto personalizados, validación de datos y un botón para finalizar el registro.
+ * Muestra una barra superior con botón de retroceso y utiliza un ViewModel para gestionar el estado de los campos.
+ *
+ * @param viewModel Instancia de [RegisterViewModel] para gestionar los datos del formulario y el registro.
+ * @param onRegister Acción a ejecutar cuando el registro es exitoso.
+ * @param onBack Acción a ejecutar al presionar el botón de retroceso.
+ */
 @Composable
 fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, onBack: () -> Unit) {
     var passwordVisible by remember { mutableStateOf(false) }

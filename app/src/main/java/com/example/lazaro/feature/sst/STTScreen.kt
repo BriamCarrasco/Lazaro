@@ -43,6 +43,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import topBarBack
 
+
+/**
+ * Pantalla de reconocimiento de voz a texto (STT) de la aplicación.
+ *
+ * Permite al usuario dictar texto mediante la voz, utilizando el motor de reconocimiento de voz del dispositivo.
+ * Solicita el permiso de grabación de audio, inicia la escucha y muestra el texto reconocido en pantalla.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo entre pantallas.
+ * @param onBack Acción a ejecutar cuando se presiona el botón de retroceso.
+ */
 @Composable
 fun sttscreen(navRouter: NavController, onBack: () -> Unit) {
 

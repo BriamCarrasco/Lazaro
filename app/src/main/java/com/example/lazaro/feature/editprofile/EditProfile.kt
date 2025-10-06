@@ -47,6 +47,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 
+
+
+/**
+ * Pantalla para editar el perfil del usuario.
+ *
+ * Permite modificar los datos personales como nombre, apellidos, nombre de usuario y correo electrónico.
+ * Gestiona la actualización del perfil en la base de datos y muestra mensajes de éxito o error.
+ * También permite navegar a la pantalla de actualización de contraseña.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo de pantallas.
+ * @param onBack Acción a ejecutar al presionar el botón de retroceso.
+ * @param sessionViewModel ViewModel de sesión para obtener información del usuario autenticado.
+ * @param editProfileViewModel ViewModel encargado de la lógica de edición y actualización del perfil.
+ */
 @Composable
 fun EditProfile(
     navRouter: NavController,

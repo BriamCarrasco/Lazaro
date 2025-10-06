@@ -33,6 +33,18 @@ import androidx.compose.material3.Scaffold
 import topBarBack
 
 
+
+/**
+ * Pantalla de registro - Paso 1.
+ *
+ * Permite al usuario ingresar sus datos personales: nombre, apellido paterno y apellido materno.
+ * Incluye campos de texto personalizados, validación visual y un botón para avanzar al siguiente paso del registro.
+ * Muestra una barra superior con botón de retroceso y utiliza un ViewModel para gestionar el estado de los campos.
+ *
+ * @param viewModel Instancia de [RegisterViewModel] para gestionar los datos del formulario.
+ * @param onNext Acción a ejecutar cuando el usuario avanza al siguiente paso.
+ * @param onBack Acción a ejecutar al presionar el botón de retroceso.
+ */
 @Composable
 fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack: () -> Unit){
 

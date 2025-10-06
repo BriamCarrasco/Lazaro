@@ -41,7 +41,15 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
 import androidx.compose.ui.text.font.FontWeight
 
-
+/**
+ * Pantalla de Texto a Voz (TTS) de la aplicación.
+ *
+ * Permite al usuario ingresar un texto y reproducirlo en voz alta usando el motor TTS del dispositivo.
+ * Incluye controles para iniciar y detener la reproducción de voz.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo entre pantallas.
+ * @param onBack Acción a ejecutar cuando se presiona el botón de retroceso.
+ */
 @Composable
 fun ttsscreen(navRouter: NavController, onBack: () -> Unit) {
 

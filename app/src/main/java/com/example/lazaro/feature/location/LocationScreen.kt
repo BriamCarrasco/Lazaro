@@ -28,6 +28,17 @@ import java.util.Locale
 import kotlin.collections.get
 import kotlin.toString
 
+
+/**
+ * Pantalla para mostrar y compartir la ubicación actual del usuario.
+ *
+ * Solicita permisos de ubicación, obtiene la localización y dirección actual usando un [LocationViewModel],
+ * y permite compartir la ubicación a través de otras aplicaciones.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo de pantallas.
+ * @param onBack Acción a ejecutar al presionar el botón de retroceso.
+ * @param viewModel Instancia de [LocationViewModel] para manejar la lógica de obtención de ubicación y dirección.
+ */
 @Composable
 fun LocationScreen(navRouter: NavController, onBack: () -> Unit, viewModel: LocationViewModel = viewModel()) {
     val context = LocalContext.current

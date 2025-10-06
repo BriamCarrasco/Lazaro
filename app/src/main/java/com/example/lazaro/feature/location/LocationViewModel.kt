@@ -14,13 +14,37 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.Locale
 
+
+/**
+ * ViewModel encargado de gestionar la obtención de la ubicación y dirección actual del usuario.
+ *
+ * Utiliza los servicios de ubicación de Google y Geocoder para obtener la localización y traducirla a una dirección legible.
+ * Expone el estado de la ubicación y la dirección mediante flujos observables.
+ *
+ * @constructor Recibe la aplicación para acceder a recursos y contexto.
+ */
 class LocationViewModel(application: Application) : AndroidViewModel(application) {
+
+    /**
+     * Estado observable que contiene la última ubicación obtenida.
+     */
     private val _location = MutableStateFlow<Location?>(null)
+
     val location: StateFlow<Location?> = _location
 
+
+    /**
+     * Estado observable que contiene la dirección correspondiente a la ubicación.
+     */
     private val _address = MutableStateFlow<String?>(null)
     val address: StateFlow<String?> = _address
 
+
+    /**
+     * Obtiene la ubicación actual del usuario y actualiza el estado.
+     *
+     * @param context Contexto necesario para acceder a los servicios de ubicación.
+     */
     fun getLocation(context: Context) {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         val cancellationTokenSource = CancellationTokenSource()
@@ -33,6 +57,13 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+
+    /**
+     * Obtiene la dirección legible a partir de una ubicación y actualiza el estado.
+     *
+     * @param context Contexto necesario para el Geocoder.
+     * @param loc Ubicación a traducir en dirección.
+     */
     private fun getAddress(context: Context, loc: Location?) {
         viewModelScope.launch {
             if (loc != null) {

@@ -35,6 +35,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextOverflow
 
 
+
+/**
+ * Drawer lateral reutilizable para la pantalla principal de la aplicación.
+ *
+ * Muestra información del usuario, permite cambiar el tema, navegar a otras pantallas
+ * y cerrar sesión. Utiliza Firestore para obtener los datos del usuario autenticado.
+ *
+ * @param topBar Composable que representa la barra superior, recibe el estado del drawer y el scope.
+ * @param content Contenido principal que se muestra junto al drawer.
+ * @param darkThemeEnabled Indica si el tema oscuro está activado.
+ * @param onToggleTheme Acción para alternar entre tema claro y oscuro.
+ * @param sessionViewModel ViewModel de sesión para gestionar el estado del usuario.
+ * @param navController Controlador de navegación para gestionar el flujo entre pantallas.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun drawerHome(

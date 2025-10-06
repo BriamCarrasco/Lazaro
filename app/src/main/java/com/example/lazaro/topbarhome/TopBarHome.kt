@@ -13,6 +13,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.MaterialTheme
 
+
+/**
+ * Barra superior personalizada para la pantalla principal de la aplicación.
+ *
+ * Muestra un título y un botón de menú en la parte izquierda.
+ *
+ * @param title Título que se muestra en la barra superior.
+ * @param onMenuClick Acción a ejecutar cuando se presiona el botón de menú.
+ * @param modifier Modificador opcional para personalizar el diseño.
+ * @param containerColor Color de fondo de la barra superior.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBarHome(

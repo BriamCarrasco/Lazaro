@@ -24,6 +24,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 
+
+/**
+ * Composable para alternar entre el tema claro y oscuro de la aplicación.
+ *
+ * Muestra un interruptor (Switch) que permite al usuario cambiar el tema actual.
+ * El estado del tema se refleja visualmente y se notifica mediante el callback proporcionado.
+ *
+ * @param darkThemeEnabled Indica si el tema oscuro está activado.
+ * @param onToggleTheme Acción a ejecutar cuando el usuario cambia el estado del switch.
+ * @param modifier Modificador opcional para personalizar el estilo o disposición del componente.
+ */
 @Composable
 fun ThemeSwitcherLottie(
     darkThemeEnabled: Boolean,

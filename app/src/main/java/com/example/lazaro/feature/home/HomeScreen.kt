@@ -67,6 +67,16 @@ import androidx.compose.ui.graphics.graphicsLayer
 
 
 
+/**
+ * Pantalla principal de la aplicación.
+ *
+ * Muestra accesos rápidos a funcionalidades como escaneo de billetes, ubicación, lectura y escucha de texto.
+ * Gestiona permisos de cámara, sesión de usuario y permite alternar el tema oscuro.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo de pantallas.
+ * @param darkThemeEnabled Indica si el tema oscuro está activado.
+ * @param onToggleTheme Acción para alternar entre tema claro y oscuro.
+ */
 @Composable
 fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggleTheme: () -> Unit) {
 

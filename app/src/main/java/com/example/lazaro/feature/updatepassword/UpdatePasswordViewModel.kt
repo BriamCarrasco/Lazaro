@@ -6,6 +6,13 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+
+/**
+ * ViewModel encargado de gestionar la lógica de actualización de contraseña del usuario.
+ *
+ * Expone el estado de la UI mediante un StateFlow y valida los campos antes de interactuar con Firebase.
+ * Realiza la reautenticación del usuario y actualiza la contraseña, notificando el resultado a la UI.
+ */
 class UpdatePasswordViewModel : ViewModel(){
 
     private val _uiState = MutableStateFlow<PasswordUpdateState>(PasswordUpdateState.Idle)
@@ -44,9 +51,23 @@ class UpdatePasswordViewModel : ViewModel(){
     }
 }
 
+
+/**
+ * Representa los diferentes estados posibles durante el proceso de actualización de contraseña.
+ */
 sealed class PasswordUpdateState {
+    /** Estado inicial o inactivo. */
     object Idle : PasswordUpdateState()
+
+    /** Estado de carga mientras se procesa la actualización. */
     object Loading : PasswordUpdateState()
+
+    /** Estado de éxito cuando la contraseña se actualiza correctamente. */
     object Success : PasswordUpdateState()
+
+    /**
+     * Estado de error con un mensaje descriptivo.
+     * @param message Mensaje de error a mostrar.
+     */
     data class Error(val message: String) : PasswordUpdateState()
 }

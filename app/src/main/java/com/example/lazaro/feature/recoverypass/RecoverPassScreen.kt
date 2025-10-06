@@ -41,6 +41,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import topBarBack
 
+
+/**
+ * Pantalla de recuperación de contraseña.
+ *
+ * Permite al usuario ingresar su correo electrónico para recibir un enlace de restablecimiento de contraseña.
+ * Muestra mensajes de éxito o error según el resultado de la operación.
+ * Utiliza un ViewModel para gestionar el estado y la lógica de recuperación.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo de pantallas.
+ * @param onBack Acción a ejecutar al presionar el botón de retroceso.
+ * @param viewModel Instancia de [RecoverViewModel] para manejar la lógica de recuperación de contraseña.
+ */
 @Composable
 fun recoverPassScreen(
     navRouter: NavController,

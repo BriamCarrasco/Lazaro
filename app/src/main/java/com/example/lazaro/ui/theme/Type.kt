@@ -6,8 +6,24 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Set of Material typography styles to start with
+/**
+ * Genera un conjunto de estilos tipográficos escalables para la aplicación,
+ * adaptando el tamaño de fuente, interlineado y espaciado según el factor de escala proporcionado.
+ *
+ * @param fontScale Factor de escala para ajustar el tamaño de las fuentes.
+ * @return Un objeto [Typography] con los estilos personalizados.
+ */
+
 fun getScaledTypography(fontScale: Float): Typography = Typography(
+
+    /**
+     * Estilos personalizados para aplicación.
+     */
+
+
+    /**
+     * Estilo para textos principales del cuerpo.
+     */
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -15,6 +31,10 @@ fun getScaledTypography(fontScale: Float): Typography = Typography(
         lineHeight = (24 * fontScale).sp,
         letterSpacing = (0.5 * fontScale).sp
     ),
+
+    /**
+     * Estilo para títulos grandes.
+     */
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -22,6 +42,10 @@ fun getScaledTypography(fontScale: Float): Typography = Typography(
         lineHeight = (28 * fontScale).sp,
         letterSpacing = (0 * fontScale).sp
     ),
+
+    /**
+     * Estilo para etiquetas pequeñas.
+     */
     labelSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -29,6 +53,10 @@ fun getScaledTypography(fontScale: Float): Typography = Typography(
         lineHeight = (16 * fontScale).sp,
         letterSpacing = (0.5 * fontScale).sp
     ),
+
+    /**
+     * Estilo para títulos medianos.
+     */
     titleMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -36,6 +64,10 @@ fun getScaledTypography(fontScale: Float): Typography = Typography(
         lineHeight = (16 * fontScale).sp,
         letterSpacing = (0.5 * fontScale).sp
     ),
+
+    /**
+     * Estilo para títulos pequeños.
+     */
     titleSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -43,9 +75,6 @@ fun getScaledTypography(fontScale: Float): Typography = Typography(
         lineHeight = (16 * fontScale).sp,
         letterSpacing = (0.5 * fontScale).sp
     ),
-
-
-
 
 )
 

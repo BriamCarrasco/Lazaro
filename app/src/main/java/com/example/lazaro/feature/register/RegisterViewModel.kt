@@ -15,26 +15,55 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.text.set
 
+
+/**
+ * ViewModel encargado de gestionar el registro de usuarios.
+ *
+ * Maneja el estado de los campos del formulario de registro y la lógica de validación.
+ * Permite registrar usuarios en Firebase Authentication y guardar sus datos en Firestore.
+ *
+ * @property auth Instancia de [FirebaseAuth] para autenticación de usuarios.
+ * @property db Instancia de [FirebaseFirestore] para almacenar datos de usuario.
+ */
 class RegisterViewModel(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) : ViewModel() {
-    var id by mutableStateOf(0)
+
+    /** Nombre de usuario. */
     var nombreUsuario by mutableStateOf("")
+
+    /** Nombre del usuario. */
     var nombre by mutableStateOf("")
+
+    /** Apellido paterno del usuario. */
     var apellidoP by mutableStateOf("")
+
+    /** Apellido materno del usuario. */
     var ApellidoM by mutableStateOf("")
+
+    /** Correo electrónico del usuario. */
     var email by mutableStateOf("")
+
+    /** Contraseña del usuario. */
     var password by mutableStateOf("")
 
 
-
+    /**
+     * Valida que los campos del primer paso no estén vacíos.
+     * @return `true` si todos los campos están completos, `false` en caso contrario.
+     */
     fun isStep1Valid(): Boolean {
         return nombre.isNotBlank() &&
                 apellidoP.isNotBlank() &&
                 ApellidoM.isNotBlank()
     }
 
+
+    /**
+     * Valida que los campos del segundo paso no estén vacíos.
+     * @return `true` si todos los campos están completos, `false` en caso contrario.
+     */
     fun isStep2Valid(): Boolean {
         return nombreUsuario.isNotBlank() &&
                 email.isNotBlank() &&
@@ -42,6 +71,12 @@ class RegisterViewModel(
     }
 
 
+
+    /**
+     * Registra un nuevo usuario en Firebase Authentication y almacena sus datos en Firestore.
+     *
+     * @param onResult Callback que indica si el registro fue exitoso y un mensaje de error opcional.
+     */
     fun registerUserFireBase(onResult: (Boolean, String?) -> Unit) {
         if (!isStep2Valid()) {
             onResult(false, "Campos vacíos")

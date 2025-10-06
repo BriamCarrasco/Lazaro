@@ -9,7 +9,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 
-
+/**
+ * Pantalla de registro principal que gestiona el flujo entre los pasos del registro.
+ *
+ * Controla la navegación entre los pasos del formulario de registro utilizando un estado interno.
+ * Muestra mensajes de validación y permite regresar a pantallas anteriores mediante el `NavHostController`.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo de pantallas.
+ * @param viewModel Instancia de [RegisterViewModel] para manejar el estado y validación de los datos del registro.
+ */
 @Composable
 fun registerScreen(navRouter: NavHostController, viewModel: RegisterViewModel) {
     var step by remember { mutableStateOf(1) }

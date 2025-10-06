@@ -50,6 +50,17 @@ import com.example.lazaro.nav.NavRouter
 import kotlinx.coroutines.delay
 import topBarBack
 
+
+/**
+ * Pantalla para actualizar la contraseña del usuario.
+ *
+ * Permite al usuario ingresar su contraseña actual, una nueva contraseña y la confirmación de la nueva contraseña.
+ * Gestiona la visibilidad de los campos de contraseña y muestra mensajes de éxito o error según el resultado de la actualización.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo entre pantallas.
+ * @param onBack Acción a ejecutar cuando se presiona el botón de retroceso.
+ * @param viewModel ViewModel encargado de la lógica de actualización de contraseña.
+ */
 @Composable
 fun UpdatePasswordScreen(
     navRouter: NavController,

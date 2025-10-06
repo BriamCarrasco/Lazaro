@@ -56,7 +56,17 @@ import com.example.lazaro.data.AppDatabase
 import com.example.lazaro.data.UsersRoomRepository
 import com.google.firebase.auth.FirebaseAuth
 
-
+/**
+ * Pantalla de inicio de sesión.
+ *
+ * Permite al usuario ingresar su correo electrónico y contraseña para autenticarse.
+ * Incluye animación, validación de campos, mensajes de error y navegación a otras pantallas como registro y recuperación de contraseña.
+ * Utiliza un ViewModel para gestionar el estado del login y un SessionViewModel para manejar la sesión del usuario.
+ *
+ * @param navRouter Controlador de navegación para gestionar el flujo de pantallas.
+ * @param viewModel Instancia de [LoginViewModel] para manejar la lógica de autenticación.
+ * @param sessionViewModel Instancia de [SessionViewModel] para gestionar la sesión del usuario.
+ */
 @Composable
     fun loginScreen(navRouter: NavHostController, viewModel: LoginViewModel, sessionViewModel: SessionViewModel) {
         //var userName by remember { mutableStateOf("") }

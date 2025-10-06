@@ -36,6 +36,13 @@ import com.example.lazaro.feature.sst.sttscreen
 import com.example.lazaro.feature.tts.ttsscreen
 
 
+
+/**
+ * Actividad principal de la aplicación Lazaro.
+ * Esta actividad maneja la navegación entre las diferentes pantallas
+ * y la configuración del tema de la aplicación.
+ *
+ */
 class MainActivity : ComponentActivity() {
 
     lateinit var db: AppDatabase
@@ -48,6 +55,9 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
+
+            // Configuración del tema y navegación usando Jetpack Compose
+
             var darkThemeEnabled by remember { mutableStateOf(true) }
             val fontScaleViewModel: FontScaleViewModel = viewModel()
             val fontScale by fontScaleViewModel.fontScale.collectAsState()
@@ -65,6 +75,9 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = startDestination
                 ){
+
+                //definicion de las rutas de navegacion
+
                     // Login Screen
                     composable(NavRouter.LoginScreen.route) {
                         val context = LocalContext.current
@@ -128,12 +141,14 @@ class MainActivity : ComponentActivity() {
                         })
                     }
 
+                    // SST Screen
                     composable(NavRouter.STTScreen.route){
                         sttscreen(navRouter = navController, onBack = {
                             navController.popBackStack()
                          })
                     }
 
+                    // TTS Screen
                     composable(NavRouter.TTSScreen.route){
                         ttsscreen(navRouter = navController, onBack = {
                             navController.popBackStack()

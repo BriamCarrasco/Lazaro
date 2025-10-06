@@ -12,7 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
 
+
+
+/**
+ * Paleta de colores personalizada para el modo oscuro de la aplicación.
+ * Define los colores principales, secundarios, de fondo, superficie y de error.
+ */
 object DarkAppColors {
+
+    //Definición de colores para el tema oscuro
+
     val primary = Color(0xFFFF7700)
     val onPrimary = Color(0xFF452B00)
     val primaryContainer = Color(0xFF624000)
@@ -49,7 +58,15 @@ object DarkAppColors {
     val surfaceBright = Color(0xFF3C3630)
 }
 
+
+/**
+ * Paleta de colores personalizada para el modo claro de la aplicación.
+ * Define los colores principales, secundarios, de fondo, superficie y de error.
+ */
 object LightAppColors {
+
+    // Definición de colores para el tema claro
+
     val primary = Color(0xFFFF7700)
     val onPrimary = Color(0xFFFFFFFF)
     val primaryContainer = Color(0xFFFFDBC7)
@@ -86,7 +103,14 @@ object LightAppColors {
     val surfaceBright = Color(0xFFFFF9F3)
 }
 
+
+/**
+ * Esquema de colores para el tema claro, basado en [LightAppColors].
+ */
 private val LightColorScheme = lightColorScheme(
+
+    // Asignación de colores del tema claro
+
     primary = LightAppColors.primary,
     onPrimary = LightAppColors.onPrimary,
     primaryContainer = LightAppColors.primaryContainer,
@@ -123,8 +147,13 @@ private val LightColorScheme = lightColorScheme(
     surfaceBright = LightAppColors.surfaceBright
 )
 
-
+/**
+ * Esquema de colores para el tema oscuro, basado en [DarkAppColors].
+ */
 private val DarkColorScheme = darkColorScheme(
+
+    // Asignación de colores del tema oscur
+
     primary = DarkAppColors.primary,
     onPrimary = DarkAppColors.onPrimary,
     primaryContainer = DarkAppColors.primaryContainer,
@@ -163,6 +192,17 @@ private val DarkColorScheme = darkColorScheme(
 
 
 
+
+/**
+ * Composable que aplica el tema visual de la aplicación Lazaro.
+ *
+ * Selecciona el esquema de colores (claro, oscuro o dinámico) y la tipografía escalable.
+ *
+ * @param darkTheme Indica si se debe usar el tema oscuro.
+ * @param dynamicColor Si es `true`, usa colores dinámicos en Android 12+.
+ * @param fontScale Factor de escala para el tamaño de fuente.
+ * @param content Contenido composable al que se aplica el tema.
+ */
 @Composable
 fun LazaroTheme(
     darkTheme: Boolean,

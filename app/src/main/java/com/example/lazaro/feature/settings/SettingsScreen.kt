@@ -38,7 +38,18 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-
+/**
+ * Pantalla de configuración de la aplicación.
+ *
+ * Permite al usuario cambiar el tema (claro/oscuro) y ajustar el tamaño de fuente para mejorar la accesibilidad.
+ * Incluye una barra superior con botón de retroceso y utiliza un ViewModel para gestionar la escala de fuente.
+ *
+ * @param darkThemeEnabled Indica si el tema oscuro está activado.
+ * @param onToggleTheme Acción a ejecutar al alternar el tema.
+ * @param navRouter Controlador de navegación para gestionar el flujo entre pantallas.
+ * @param onBack Acción a ejecutar al presionar el botón de retroceso.
+ * @param fontScaleViewModel ViewModel encargado de gestionar el tamaño de fuente.
+ */
 @Composable
 fun SettingsScreen(
     darkThemeEnabled: Boolean,
