@@ -49,6 +49,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.navigation.NavHostController
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import com.example.lazaro.feature.session.SessionViewModel
 import com.example.lazaro.data.AppDatabase
@@ -64,6 +65,8 @@ import com.google.firebase.auth.FirebaseAuth
         var passwordVisible by remember { mutableStateOf(false) }
         val context = LocalContext.current
         val usuarioEnSesion = sessionViewModel.loadSession(context)
+        val loginState by viewModel.loginState.collectAsState()
+
 
     LaunchedEffect(usuarioEnSesion) {
         if (usuarioEnSesion != null) {
@@ -204,62 +207,16 @@ import com.google.firebase.auth.FirebaseAuth
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            /*
-            Button(onClick = {
-                if (viewModel.userName == "" || viewModel.password == "") {
-                    Toast.makeText(
-                        navRouter.context,
-                        "Por favor, complete todos los campos",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    viewModel.login()
-                }
-            },
-                modifier = Modifier
-                    .width(250.dp)
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                shape = RoundedCornerShape(32.dp)
-            ) {
-                Text("Iniciar sesión", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
-            }
-
-
-
-            LaunchedEffect(Unit) {
-                viewModel.loginEvent.collect { state ->
-                    when (state) {
-                        is LoginState.Success -> {
-                            val user = viewModel.usuarioAutenticado!!
-                            sessionViewModel.login(user)
-                            sessionViewModel.saveSession(context, user)
-                            navRouter.navigate("homeScreen")
-                            Toast.makeText(context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                        }
-                        is LoginState.Error -> {
-                            Toast.makeText(context, "Usuario y/o contraseña incorrectos", Toast.LENGTH_SHORT).show()
-                        }
-                        else -> Unit
-                    }
-                }
-            }
-            */
 
             Button(
                 onClick = {
-                    if (email.isBlank() || password.isBlank()) {
+                    viewModel.email = email
+                    viewModel.password = password
+                    if (!viewModel.isValid()) {
                         Toast.makeText(context, "Completa ambos campos", Toast.LENGTH_SHORT).show()
                     } else {
-                        val auth = FirebaseAuth.getInstance()
-                        auth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    navRouter.navigate("homeScreen")
-                                } else {
-                                    Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
-                                }
-                            }
+                        viewModel.loginWithFirebase(email, password)
+                        Toast.makeText(context,"Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier
@@ -269,6 +226,14 @@ import com.google.firebase.auth.FirebaseAuth
                 shape = RoundedCornerShape(32.dp)
             ) {
                 Text("Iniciar sesión", style = MaterialTheme.typography.bodyLarge, color = Color.White)
+            }
+
+            LaunchedEffect(loginState) {
+                when (loginState) {
+                    is LoginState.Success -> navRouter.navigate("homeScreen")
+                    is LoginState.Error -> Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    else -> {}
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -307,7 +272,6 @@ import com.google.firebase.auth.FirebaseAuth
                     }
                 )
             }
-
         }
     }
 
