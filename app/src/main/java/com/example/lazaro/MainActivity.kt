@@ -27,7 +27,6 @@ import com.example.lazaro.data.AppDatabase
 import com.example.lazaro.feature.session.SessionViewModel
 import com.example.lazaro.data.UsersRoomRepository
 import com.example.lazaro.feature.editprofile.EditProfile
-import com.example.lazaro.feature.login.LoginViewModelFactory
 import com.example.lazaro.feature.register.RegisterViewModelFactory
 import com.example.lazaro.feature.settings.FontScaleViewModel
 import com.example.lazaro.feature.settings.SettingsScreen
@@ -70,14 +69,7 @@ class MainActivity : ComponentActivity() {
                     // Login Screen
                     composable(NavRouter.LoginScreen.route) {
                         val context = LocalContext.current
-                        val factory: LoginViewModelFactory = remember {
-                            LoginViewModelFactory(
-                                UsersRoomRepository(
-                                    AppDatabase.getInstance(context).usersDao()
-                                )
-                            )
-                        }
-                        val loginViewModel: LoginViewModel = viewModel(factory = factory)
+                        val loginViewModel: LoginViewModel = viewModel()
                         loginScreen(navController, loginViewModel, sessionViewModel)
                     }
 
