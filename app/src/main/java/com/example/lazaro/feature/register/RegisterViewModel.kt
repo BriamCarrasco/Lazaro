@@ -13,8 +13,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.text.set
 
-class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel() {
+class RegisterViewModel(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+) : ViewModel() {
     var id by mutableStateOf(0)
     var nombreUsuario by mutableStateOf("")
     var nombre by mutableStateOf("")
@@ -24,20 +28,6 @@ class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel
     var password by mutableStateOf("")
 
 
-    fun registerUser() {
-        val newUser = Users(
-            id = id,
-            nombreUsuario = nombreUsuario,
-            nombre = nombre,
-            apellidoP = apellidoP,
-            ApellidoM = ApellidoM,
-            email = email,
-            password = password
-        )
-        viewModelScope.launch {
-            repository.insertUser(newUser)
-        }
-    }
 
     fun isStep1Valid(): Boolean {
         return nombre.isNotBlank() &&
@@ -53,8 +43,10 @@ class RegisterViewModel(private val repository: UsersRoomRepository) : ViewModel
 
 
     fun registerUserFireBase(onResult: (Boolean, String?) -> Unit) {
-        val auth = FirebaseAuth.getInstance()
-        val db = FirebaseFirestore.getInstance()
+        if (!isStep2Valid()) {
+            onResult(false, "Campos vacíos")
+            return
+        }
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

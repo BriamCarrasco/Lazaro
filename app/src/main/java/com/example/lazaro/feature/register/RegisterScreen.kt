@@ -32,11 +32,8 @@ fun registerScreen(navRouter: NavHostController, viewModel: RegisterViewModel) {
         2 -> RegisterScreenStep2(
             viewModel = viewModel,
             onRegister = {
-                if (viewModel.isStep2Valid()) {
-                    viewModel.registerUser()
-                    Toast.makeText(context, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Completa todos los campos", Toast.LENGTH_SHORT).show()
+                navRouter.navigate("loginScreen") {
+                    popUpTo("registerS") { inclusive = true }
                 }
             },
             onBack = {

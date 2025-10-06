@@ -53,6 +53,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.lazaro.MainActivity
+import com.google.firebase.auth.FirebaseAuth
 import topBarBack
 
 
@@ -216,35 +217,20 @@ fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, on
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        /*
+
         Button(
-            onClick = onRegister,
-            modifier = Modifier
-                .width(250.dp)
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-            shape = RoundedCornerShape(32.dp)
-        ) {
-            Text("Registrate", fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
-        }
-        */
 
-        Button(onClick = {
-
+            onClick = {
                 viewModel.registerUserFireBase { success, errorMsg ->
                     if (success) {
+                        FirebaseAuth.getInstance().signOut()
                         Toast.makeText(context, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
-                        context.startActivity(
-                            android.content.Intent(context, MainActivity::class.java)
-                        )
-                        if (context is ComponentActivity) {
-                            context.finish()
-                        }
+                        onRegister()
                     } else {
                         Toast.makeText(context, errorMsg ?: "Error al registrar", Toast.LENGTH_SHORT).show()
                     }
                 }
-        },
+            },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(32.dp)
         ) {
