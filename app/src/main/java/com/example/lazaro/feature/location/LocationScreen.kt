@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lazaro.R
 import com.google.android.gms.location.LocationServices
@@ -28,35 +29,26 @@ import kotlin.collections.get
 import kotlin.toString
 
 @Composable
-fun LocationScreen(navRouter: NavController, onBack: () -> Unit) {
+fun LocationScreen(navRouter: NavController, onBack: () -> Unit, viewModel: LocationViewModel = viewModel()) {
     val context = LocalContext.current
-    var location by remember { mutableStateOf<Location?>(null) }
+    val location by viewModel.location.collectAsState()
+    val address by viewModel.address.collectAsState()
     var hasLocationPermission by remember { mutableStateOf(false) }
-    var address by remember { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(location) {
-        val loc = location
-        if (loc != null) {
-            try {
-                val geocoder = Geocoder(context, Locale.getDefault())
-                val addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 1)
-                if (!addresses.isNullOrEmpty()) {
-                    val addr = addresses[0]
-                    address = listOfNotNull(
-                        addr.thoroughfare,
-                        addr.locality,
-                        addr.adminArea,
-                        addr.countryName
-                    ).joinToString(", ")
-                } else {
-                    address = "No disponible"
-                }
-            } catch (e: Exception) {
-                address = "Error obteniendo dirección"
+    val locationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted: Boolean ->
+            hasLocationPermission = isGranted
+            if (isGranted) {
+                viewModel.getLocation(context)
+            } else {
+                Toast.makeText(context, "Permiso de ubicación denegado.", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            address = null
         }
+    )
+
+    LaunchedEffect(Unit) {
+        locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     fun compartirUbicacion() {
@@ -72,43 +64,6 @@ fun LocationScreen(navRouter: NavController, onBack: () -> Unit) {
             putExtra(Intent.EXTRA_TEXT, texto)
         }
         context.startActivity(Intent.createChooser(intent, "Compartir ubicación"))
-    }
-
-    val getLocation = remember<(Context) -> Unit> {
-        { ctx ->
-            Toast.makeText(ctx, "Obteniendo ubicación...", Toast.LENGTH_SHORT).show()
-            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(ctx)
-            val cancellationTokenSource = CancellationTokenSource()
-            if (hasLocationPermission) {
-                fusedLocationClient.getCurrentLocation(
-                    Priority.PRIORITY_HIGH_ACCURACY,
-                    cancellationTokenSource.token
-                ).addOnSuccessListener { loc ->
-                    location = loc
-                    Toast.makeText(ctx, "Ubicación obtenida correctamente.", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener { exception ->
-                    Toast.makeText(ctx, "Error al obtener ubicación: ${exception.message}", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(ctx, "El permiso de ubicación fue revocado o denegado.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    val locationPermissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { isGranted: Boolean ->
-            hasLocationPermission = isGranted
-            if (isGranted) {
-                getLocation(context)
-            } else {
-                Toast.makeText(context, "Permiso de ubicación denegado.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    )
-
-    LaunchedEffect(Unit) {
-        locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     Scaffold(
@@ -134,47 +89,38 @@ fun LocationScreen(navRouter: NavController, onBack: () -> Unit) {
             )
 
             if (hasLocationPermission) {
-                Card(modifier = Modifier
-                    .fillMaxWidth()
-                    .size(200.dp)
-                    .padding(16.dp),
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(200.dp)
+                        .padding(16.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .size(200.dp)
-                            .padding(16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primary
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ubicacioahora),
+                            contentDescription = "Escanear billete",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .align(Alignment.Center),
+                            alpha = 0.1f
                         )
-                    ) {
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ubicacioahora),
-                                contentDescription = "Escanear billete",
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .align(Alignment.Center),
-                                alpha = 0.1f
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(16.dp),
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Text("Latitud: ${location?.latitude ?: "N/A"}", style = MaterialTheme.typography.bodyLarge)
-                                Text("Longitud: ${location?.longitude ?: "N/A"}", style = MaterialTheme.typography.bodyLarge)
-                                Text("Dirección: ${address ?: "Obteniendo dirección..."}", style = MaterialTheme.typography.bodyLarge)
-                            }
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text("Latitud: ${location?.latitude ?: "N/A"}", style = MaterialTheme.typography.bodyLarge)
+                            Text("Longitud: ${location?.longitude ?: "N/A"}", style = MaterialTheme.typography.bodyLarge)
+                            Text("Dirección: ${address ?: "Obteniendo dirección..."}", style = MaterialTheme.typography.bodyLarge)
                         }
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { getLocation(context) }) {
+                Button(onClick = { viewModel.getLocation(context) }) {
                     Text("Actualizar Ubicación")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
