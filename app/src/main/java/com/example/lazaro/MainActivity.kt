@@ -27,7 +27,6 @@ import com.example.lazaro.data.AppDatabase
 import com.example.lazaro.feature.session.SessionViewModel
 import com.example.lazaro.data.UsersRoomRepository
 import com.example.lazaro.feature.editprofile.EditProfile
-import com.example.lazaro.feature.register.RegisterViewModelFactory
 import com.example.lazaro.feature.settings.FontScaleViewModel
 import com.example.lazaro.feature.settings.SettingsScreen
 import com.example.lazaro.feature.updatepassword.UpdatePasswordScreen
@@ -76,14 +75,7 @@ class MainActivity : ComponentActivity() {
                     // Register Screen
                     composable (NavRouter.RegisterScreen.route){
                         val context = LocalContext.current
-                        val registerFactory: RegisterViewModelFactory = remember {
-                            RegisterViewModelFactory(
-                                UsersRoomRepository(
-                                    AppDatabase.getInstance(context).usersDao()
-                                )
-                            )
-                        }
-                        val registerViewModel: RegisterViewModel = viewModel(factory = registerFactory)
+                        val registerViewModel: RegisterViewModel = viewModel()
                         registerScreen(navController, registerViewModel)
                     }
 
