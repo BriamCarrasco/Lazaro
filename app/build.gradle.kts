@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.animation)
@@ -78,6 +79,10 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("androidx.datastore:datastore-preferences:1.1.7")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    testImplementation(kotlin("test"))
+    testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
 
 }
