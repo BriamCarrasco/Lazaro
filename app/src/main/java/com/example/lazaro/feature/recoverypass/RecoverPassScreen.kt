@@ -22,6 +22,8 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,9 +42,13 @@ import androidx.compose.ui.text.font.FontWeight
 import topBarBack
 
 @Composable
-fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
+fun recoverPassScreen(
+    navRouter: NavController,
+    onBack: () -> Unit,
+    viewModel: RecoverViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     var email by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val state by viewModel.state.collectAsState()
 
     Scaffold(
         topBar = {
@@ -117,8 +123,7 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(onClick = {
-                Toast.makeText(context, "Correo enviado", Toast.LENGTH_SHORT).show()
-
+                viewModel.sendPasswordReset(email)
             },
                 modifier = Modifier
                     .width(250.dp)
@@ -128,6 +133,22 @@ fun recoverPassScreen(navRouter: NavController, onBack: () -> Unit) {
 
                 Text("Enviar enlace", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
             }
+
+            when (state) {
+                is RecoverPassState.Success -> {
+                    LaunchedEffect(Unit) {
+                        Toast.makeText(context, "Correo enviado", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is RecoverPassState.Error -> {
+                    val message = (state as RecoverPassState.Error).message
+                    LaunchedEffect(message) {
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else -> {}
+            }
+
         }
     }
 }
