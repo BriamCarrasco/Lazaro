@@ -14,13 +14,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,7 +34,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -42,6 +49,7 @@ fun sttscreen(navRouter: NavController, onBack: () -> Unit) {
     val context = LocalContext.current
     val speechRecognizer = remember { SpeechRecognizer.createSpeechRecognizer(context) }
     var speechText by remember { mutableStateOf("Presione el boton para hablar ") }
+    var isListening by remember { mutableStateOf(false) }
     val recognizerIntent = remember {
         Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply{
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -62,7 +70,7 @@ fun sttscreen(navRouter: NavController, onBack: () -> Unit) {
 
     val recognizeListener = object : android.speech.RecognitionListener {
         override fun onReadyForSpeech(p0: Bundle?) {
-            /*...*/
+            isListening = true
         }
         override fun onBeginningOfSpeech() {
             speechText = "Escuchando..."
@@ -75,13 +83,16 @@ fun sttscreen(navRouter: NavController, onBack: () -> Unit) {
         }
         override fun onEndOfSpeech() {
             speechText = "Procesando..."
+            isListening = false
         }
         override fun onError(error: Int) {
             speechText = "Error al reconocer la voz, intente de nuevo."
+            isListening = false
         }
         override fun onResults(p0:  Bundle?) {
             val matches = p0?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
             speechText = matches?.firstOrNull() ?: "No se reconoció ninguna voz."
+            isListening = false
         }
         override fun onPartialResults(partialResults: Bundle?) {
             /*...*/
@@ -114,17 +125,54 @@ fun sttscreen(navRouter: NavController, onBack: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ){
 
-            Text (text = speechText,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground,
+            Text (
+                text = "Voz a texto",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.onBackground
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = speechText,
+                onValueChange = {},
+                readOnly = true,
+                singleLine = false,
+                placeholder = {
+                    Text("Escribe el texto aquí",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .height(250.dp)
+                    .background(Color.White, shape = RoundedCornerShape(32.dp)),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                shape = RoundedCornerShape(32.dp),
+            )
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
                 onClick = {
                     permissionToRecordAudio.launch(android.Manifest.permission.RECORD_AUDIO)
-                }
+                },
+                enabled = !isListening
             ) {
                 Text(text = "Hablar",
                     style = MaterialTheme.typography.bodyLarge,
