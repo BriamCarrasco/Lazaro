@@ -216,7 +216,6 @@ import com.google.firebase.auth.FirebaseAuth
                         Toast.makeText(context, "Completa ambos campos", Toast.LENGTH_SHORT).show()
                     } else {
                         viewModel.loginWithFirebase(email, password)
-                        Toast.makeText(context,"Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier
@@ -230,7 +229,10 @@ import com.google.firebase.auth.FirebaseAuth
 
             LaunchedEffect(loginState) {
                 when (loginState) {
-                    is LoginState.Success -> navRouter.navigate("homeScreen")
+                    is LoginState.Success -> {
+                        Toast.makeText(context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                        navRouter.navigate("homeScreen")
+                    }
                     is LoginState.Error -> Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                     else -> {}
                 }
