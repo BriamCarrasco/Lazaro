@@ -85,7 +85,10 @@ import com.google.firebase.auth.FirebaseAuth
             val userEntity = repository.getUserByUsername(usuarioEnSesion)
             if (userEntity != null) {
                 sessionViewModel.login(userEntity)
-                navRouter.navigate("homeScreen")
+                navRouter.navigate("homeScreen"){
+                    popUpTo("loginScreen") { inclusive = true }
+                    launchSingleTop = true
+                }
             }
         }
     }
