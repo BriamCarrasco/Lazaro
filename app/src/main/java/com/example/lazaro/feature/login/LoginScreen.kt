@@ -241,7 +241,9 @@ import com.google.firebase.auth.FirebaseAuth
                 when (loginState) {
                     is LoginState.Success -> {
                         Toast.makeText(context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                        navRouter.navigate("homeScreen")
+                        navRouter.navigate("homeScreen"){
+                            launchSingleTop = true
+                        }
                     }
                     is LoginState.Error -> Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                     else -> {}
@@ -257,7 +259,9 @@ import com.google.firebase.auth.FirebaseAuth
                 color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
-                    navRouter.navigate("recoverPassScreen")
+                    navRouter.navigate("recoverPassScreen"){
+                        launchSingleTop = true
+                    }
                 }
             )
 
@@ -280,7 +284,9 @@ import com.google.firebase.auth.FirebaseAuth
                     color = MaterialTheme.colorScheme.secondary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable{
-                        navRouter.navigate("registerScreen")
+                        navRouter.navigate("registerScreen"){
+                            launchSingleTop = true
+                        }
                     }
                 )
             }

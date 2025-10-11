@@ -1,6 +1,7 @@
 package com.example.lazaro.feature.updatepassword
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -68,6 +69,9 @@ fun UpdatePasswordScreen(
     viewModel: UpdatePasswordViewModel = viewModel()
 ) {
 
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
     var currentPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
     var confirmNewPassword by remember { mutableStateOf("") }
@@ -83,7 +87,9 @@ fun UpdatePasswordScreen(
             is PasswordUpdateState.Success -> {
                 Toast.makeText(context, "Contraseña actualizada correctamente", Toast.LENGTH_SHORT).show()
                 delay(1000)
-                onBack()
+                navRouter.navigate("loginScrenn"){
+                    launchSingleTop = true
+                }
             }
             else -> {}
         }

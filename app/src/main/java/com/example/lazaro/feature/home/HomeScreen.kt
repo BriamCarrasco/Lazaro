@@ -34,6 +34,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.camera.core.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.camera.view.PreviewView
@@ -89,6 +90,10 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
                 context, Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
         )
+    }
+
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -204,7 +209,9 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
                             .fillMaxWidth()
                             .padding(vertical = 16.dp)
                             .clickable{
-                                navRouter.navigate("locationScreen")
+                                navRouter.navigate("locationScreen"){
+                                    launchSingleTop = true
+                                }
                             }
                             .height(200.dp),
                         colors = CardDefaults.cardColors(
@@ -240,7 +247,10 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
                             modifier = Modifier
                                 .size(200.dp)
                                 .weight(1f)
-                                .clickable { navRouter.navigate("ttsScreen") }
+                                .clickable { navRouter.navigate("ttsScreen"){
+                                    launchSingleTop = true
+                                }
+                                }
                                 .padding(vertical = 16.dp),
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.primary
@@ -271,7 +281,7 @@ fun homeScreen(navRouter: NavHostController, darkThemeEnabled: Boolean, onToggle
                             modifier = Modifier
                                 .size(200.dp)
                                 .weight(1f)
-                                .clickable { navRouter.navigate("sttScreen") }
+                                .clickable { navRouter.navigate("sttScreen"){launchSingleTop = true} }
                                 .padding(vertical = 16.dp),
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.primary

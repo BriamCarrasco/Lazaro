@@ -6,6 +6,7 @@ import android.content.Intent
 import android.location.Geocoder
 import android.location.Location
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -45,6 +46,10 @@ fun LocationScreen(navRouter: NavController, onBack: () -> Unit, viewModel: Loca
     val location by viewModel.location.collectAsState()
     val address by viewModel.address.collectAsState()
     var hasLocationPermission by remember { mutableStateOf(false) }
+
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
 
     val locationPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),

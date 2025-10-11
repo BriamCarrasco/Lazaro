@@ -125,7 +125,9 @@ fun drawerHome(
 
                 Button(
                     onClick = {
-                        navController.navigate("editProfile")
+                        navController.navigate("editProfile"){
+                            launchSingleTop = true
+                        }
                         scope.launch { drawerState.close() }
                     },
                     modifier = Modifier
@@ -138,7 +140,9 @@ fun drawerHome(
 
                 Button(
                     onClick = {
-                        navController.navigate("settingsScreen")
+                        navController.navigate("settingsScreen"){
+                            launchSingleTop = true
+                        }
                         scope.launch { drawerState.close() }
                     },
                     modifier = Modifier

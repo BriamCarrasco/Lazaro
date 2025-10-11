@@ -1,6 +1,7 @@
 package com.example.lazaro.feature.editprofile
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -75,6 +76,9 @@ fun EditProfile(
 
     val isModified = originalProfile != null && profile != originalProfile
 
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
 
     LaunchedEffect(Unit) {
         editProfileViewModel.loadUserProfile()
@@ -267,7 +271,9 @@ fun EditProfile(
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { navRouter.navigate("updatePasswordScreen") },
+                onClick = { navRouter.navigate("updatePasswordScreen"){
+                    launchSingleTop = true
+                } },
                 modifier = Modifier
                     .width(250.dp)
                     .height(48.dp),

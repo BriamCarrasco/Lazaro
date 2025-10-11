@@ -1,5 +1,6 @@
 package com.example.lazaro.feature.settings
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -58,6 +59,11 @@ fun SettingsScreen(
     onBack: () -> Unit,
     fontScaleViewModel: FontScaleViewModel = viewModel()
     ) {
+
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
+
     Scaffold(
         topBar = {
             topBarBack(

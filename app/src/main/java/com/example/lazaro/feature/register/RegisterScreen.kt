@@ -41,6 +41,7 @@ fun registerScreen(navRouter: NavHostController, viewModel: RegisterViewModel) {
             viewModel = viewModel,
             onRegister = {
                 navRouter.navigate("loginScreen") {
+                    launchSingleTop = true
                     popUpTo("registerS") { inclusive = true }
                 }
             },

@@ -2,6 +2,7 @@ package com.example.lazaro.feature.tts
 
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,6 +53,10 @@ import androidx.compose.ui.text.font.FontWeight
  */
 @Composable
 fun ttsscreen(navRouter: NavController, onBack: () -> Unit) {
+
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
 
     val context = LocalContext.current
     var textToSpeak by remember { mutableStateOf("Hola, pulsa el botón para escuchar este texto.") }

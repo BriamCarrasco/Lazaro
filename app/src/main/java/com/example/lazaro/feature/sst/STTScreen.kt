@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -55,6 +56,10 @@ import topBarBack
  */
 @Composable
 fun sttscreen(navRouter: NavController, onBack: () -> Unit) {
+
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
 
     val context = LocalContext.current
     val speechRecognizer = remember { SpeechRecognizer.createSpeechRecognizer(context) }

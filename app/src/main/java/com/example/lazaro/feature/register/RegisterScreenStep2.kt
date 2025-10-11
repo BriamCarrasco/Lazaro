@@ -2,6 +2,7 @@ package com.example.lazaro.feature.register
 
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,6 +73,10 @@ import topBarBack
 fun RegisterScreenStep2(viewModel: RegisterViewModel, onRegister: () -> Unit, onBack: () -> Unit) {
     var passwordVisible by remember { mutableStateOf(false) }
     val context = LocalContext.current
+
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
 
     Scaffold(
         topBar = {

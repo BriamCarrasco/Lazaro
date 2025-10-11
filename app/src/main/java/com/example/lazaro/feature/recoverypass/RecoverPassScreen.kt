@@ -1,6 +1,7 @@
 package com.example.lazaro.feature.recoverypass
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -61,6 +62,10 @@ fun recoverPassScreen(
     var email by remember { mutableStateOf("") }
     val context = LocalContext.current
     val state by viewModel.state.collectAsState()
+
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
 
     Scaffold(
         topBar = {

@@ -1,5 +1,6 @@
 package com.example.lazaro.feature.register
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,6 +48,11 @@ import topBarBack
  */
 @Composable
 fun RegisterScreenStep1 (viewModel: RegisterViewModel, onNext: () -> Unit,onBack: () -> Unit){
+
+
+    BackHandler {
+        //Se deja vacio para deshabilitar el boton de retroceso del dispositivo
+    }
 
     Scaffold(
         topBar = {
